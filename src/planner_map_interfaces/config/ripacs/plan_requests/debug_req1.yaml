@@ -1,0 +1,256 @@
+current_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+# planning parameters
+planner_params:
+  header:
+      seq: 0
+      stamp: 
+        secs: 0
+        nsecs: 0
+      frame_id: "local_enu"
+      seq: 1
+  prob_sample_track: 0.5
+  track_reward_weight: 1.0
+  search_reward_weight: 1.0
+  flight_height: 100
+  strict_stay_in_bounds: False
+  max_kappa: 0.1
+
+clear_tree: False
+desired_speed: 9.0
+
+# sensor
+sensor_constraints: 
+  min_direction: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  max_direction: 
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  max_field_of_regard_vertical: 180
+  min_field_of_regard_horizontal: 90
+  max_field_of_regard_horizontal: 180
+  min_field_of_regard_vertical: 90
+
+min_loiter_radius: 10.0
+max_planning_time: 20.0
+maximum_range: 1000.0
+
+# map
+search_bounds: 
+  points: 
+    - 
+      x: 244.41435
+      y: 0.0029357662
+      z: 1.996468
+    - 
+      x: 244.4035
+      y: 585.28815
+      z: 1.9723446
+    - 
+      x: 1.191438E-10
+      y: 585.2858
+      z: 1.9760679
+    - 
+      x: 0.0020088346
+      y: 0.0005991208
+      z: 2.0001915
+
+scenario: 1
+
+# target priors
+target_priors: 
+  - 
+    header:
+      stamp:
+        nsecs: 0
+        secs: 0
+      frame_id: "local_enu"
+      seq: 2
+    grid_prior:
+      grid_prior_type: 3 
+      confidence: 0.5
+      bounds: 
+        points:
+          - 
+            x: 35.155293
+            y: 284.2018
+            z: -0.006452614
+      header: 
+        stamp: 
+          nsecs: 0
+          secs: 0
+        frame_id: "local_enu"
+        seq: 3
+      
+      priority: 10
+      sensor_model_id: 1
+  - 
+    header:
+      stamp:
+        nsecs: 0
+        secs: 0
+      frame_id: "local_enu"
+      seq: 2
+    grid_prior:
+      grid_prior_type: 3 
+      confidence: 0.5
+      bounds: 
+        points:
+          - 
+            x: 209.1807
+            y: 352.33566
+            z: -0.0131952185
+      header: 
+        stamp: 
+          nsecs: 0
+          secs: 0
+        frame_id: "local_enu"
+        seq: 3
+      
+      priority: 9
+      sensor_model_id: 1
+  - 
+    header:
+      stamp:
+        nsecs: 0
+        secs: 0
+      frame_id: "local_enu"
+      seq: 2
+    grid_prior:
+      grid_prior_type: 3 
+      confidence: 0.5
+      bounds: 
+        points:
+          - 
+            x: 130.83171
+            y: 550.3705
+            z: -0.0251762
+      header: 
+        stamp: 
+          nsecs: 0
+          secs: 0
+        frame_id: "local_enu"
+        seq: 3
+      
+      priority: 8
+      sensor_model_id: 1
+  - 
+    header:
+      stamp:
+        nsecs: 0
+        secs: 0
+      frame_id: "local_enu"
+      seq: 2
+    grid_prior:
+      grid_prior_type: 2 
+      confidence: 0.5
+      bounds: 
+        points:
+          - 
+            x: 70.39861
+            y: 35.82058
+            z: 4.26072
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+          - 
+            x: 193.81824
+            y: 267.01584
+            z: 1861.9926
+      header: 
+        stamp: 
+          nsecs: 0
+          secs: 0
+        frame_id: "local_enu"
+        seq: 3
+      priority: 1.149999976158142
+      sensor_model_id: 1
+
+# drone
+start_pose: 
+  position: 
+    x: 62.97185124639451
+    y: 44.507305698578875
+    z: 51.999533589403086
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+
+header:
+  stamp:
+    nsecs: 0
+    secs: 0
+  frame_id: "local_enu"
+  seq: 1
+
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+counter_detection_range: 0.0

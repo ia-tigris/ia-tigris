@@ -1,0 +1,150 @@
+# planning parameters
+clear_tree: True
+max_planning_time: 5  # 10
+maximum_range: 1000000.0
+desired_speed: 50
+counter_detection_range: 50.0
+min_loiter_radius: 500.0
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+# drone
+start_pose: 
+  position: 
+    x: 4500.0
+    y: 2500.0
+    z: 110.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 1.0
+    w: 0.0
+current_speed: 
+  x: 12.0
+  y: 9.0
+  z: 0.1
+
+# sensor
+sensor_constraints: 
+  min_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  max_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  min_field_of_regard_horizontal: -2.0
+  max_field_of_regard_horizontal: -1.0
+  min_field_of_regard_vertical: -2.0
+  max_field_of_regard_vertical: -1.0
+
+# map
+search_bounds: 
+  points: 
+    - 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    - 
+      x: 4000.0
+      y: 0.0
+      z: 0.0
+    - 
+      x: 5000.0
+      y: 5000.0
+      z: 0.0
+    - 
+      x: 3000.0
+      y: 5000.0
+      z: 0.0
+    - 
+      x: 2200.0
+      y: 2500.0
+      z: 0.0
+
+# target priors
+target_priors: 
+  - 
+    grid_prior: 
+      header: 
+        frame_id: "local_enu"
+      grid_prior_type: 1
+      bounds: 
+        points:
+          - 
+            x: 2300.0
+            y: 2500.0
+            z: 0.0
+          - 
+            x: 4400.0
+            y: 2500.0
+            z: 0.0
+          - 
+            x: 4900.0
+            y: 4900.0
+            z: 0.0
+          - 
+            x: 3100.0
+            y: 4900.0
+            z: 0.0
+      confidence: .5
+      priority: 5.0
+      sensor_model_id: 0
+  - 
+    target: # bottom right
+      header: 
+        frame_id: "local_enu"
+      local_id: 1
+      global_id: 1
+      x: 3800.0
+      y: 1500.0
+      xdot: 3.14
+      ydot: 3
+      
+      covariance: [5000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.000]
+      priority: 1.0
+      sensor_model_id: 0
+  - 
+    target: # bottom left
+      header: 
+        frame_id: "local_enu"
+      local_id: 2
+      global_id: 2
+      x: 2000.0
+      y: 1001.0
+      xdot: 0
+      ydot: 2
+      
+      covariance: [10000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.000]
+      priority: 1.0
+      sensor_model_id: 0
+  # - 
+    # target: # top middle
+    #   header: 
+    #     frame_id: "local_enu"
+    #   local_id: 3
+      global_id: 3
+    #   x: 3500.0
+    #   y: 3000.0
+    #   xdot: 1.2761761356
+    #   ydot: 1
+    #   
+    #   covariance: [10000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.000]
+    #   priority: 0.0
+    #   sensor_model_id: 0
+
+
+# planner_params:
+#   header: 
+#       seq: 0
+#       stamp: 
+#         secs: 1663867531
+#         nsecs: 609695762
+#       frame_id: "planner"
+#   prob_sample_track: 0.0
+#   track_reward_weight: 0.01
+#   search_reward_weight: 1.0
+#   strict_stay_in_bounds: true

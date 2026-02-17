@@ -1,0 +1,30 @@
+node_loop_hz: 10  # in seconds
+
+# Can limit the rate of publishing the map to the search belief map visualization
+# Useful to limit the size of bags or when limited bandwidth
+search_belief_publishing_every_n_loops: 1  # number of loops.
+
+plan_request_topic: "planner/plan_request"
+agent_odom_topic: "odom"
+
+map_resolution: 30.0
+map_resolution_num: 100 # used if proportional parameters is set in tigris.yaml
+confidence_threshold: 0.5
+no_info_on_turns: true  # whether to give information reward on turns or not
+
+# Time based rewards parameters (linear function with a floor)
+time_decay_slope: 0 # must be negative. Decrease in scale value per second
+time_decay_floor: 1 # minimum scalar value from time decay
+
+# uncertainty diffusion rate, must be odd number
+use_gaussian_propagation: false # ONR does not use propagation
+gaussian_kernel_size: 0
+gaussian_sigma: 0.0  # main diffusion rate adjustment
+
+# Visualization
+update_from_image_projection: false
+visualization: true
+visualization_alpha: 0.3
+
+#metrics
+pub_search_map_metrics: false

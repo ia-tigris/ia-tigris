@@ -1,0 +1,58 @@
+#params for generating plan request
+
+#generation parameters
+plan_request_path: "/config/isaac_sim/plan_requests/" #relative to planner_map_interfaces package
+x_offset: -1000.0 #relative to lower left corner
+y_offset: -2500.0 #relative to lower left corner
+include_priors: true #include search priors in plan request
+include_targets: false #include targets in search request
+save_targets: true #save filtered targets to separate yaml (used in isaac sim to spawn ships)
+save_pkg: "ipp_isaac_sim" #package we want to save target info to
+save_dir: "/config/environment_params.yaml" #path to save to (relative to root of save_pkg)
+
+
+#plan request params
+clear_tree: True
+max_planning_time: 10.0
+maximum_range: 15000.0
+desired_speed: 25.0
+counter_detection_range: 0.0
+min_loiter_rad: 100.0
+
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+current_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+start_pose: 
+  position: 
+    x: 0.0
+    y: 0.0
+    z: 110.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+current_speed: 
+  x: 12.0
+  y: 9.0
+  z: 0.1
+
+sensor_constraints: 
+  min_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  max_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  min_field_of_regard_horizontal: -2.0
+  max_field_of_regard_horizontal: -1.0
+  min_field_of_regard_vertical: -2.0
+  max_field_of_regard_vertical: -1.0

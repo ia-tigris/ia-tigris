@@ -1,0 +1,12 @@
+# Tigris-specific config, to be included after planner.yaml
+
+# tree parameters. used if `use_ratio_distance_params: false`
+extend_dist: 900
+extend_radius: 100
+prune_radius: 30
+
+# tree parameters as ratios. use these to make the distance parameters be set in proportion to the max bounds measurement
+use_ratio_distance_params: false  
+extend_dist_ratio: .6  
+extend_radius_ratio: .6
+prune_radius_ratio: .6

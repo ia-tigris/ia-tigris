@@ -1,0 +1,21 @@
+# Testing parameters for MC testing, quantitative results collection
+
+planner_types:
+- tigris
+- rect_coverage
+- mcts_search
+- primtreebnb
+- primtree
+- greedy
+- random
+
+number_of_trials: 25  #
+
+
+
+# If you want to execute the plan in sim or not. 
+# Set to true for collecting quant results, set to false for generating training data
+execute_plan: True # Just want the first plan
+log_search_map_metrics: True #If we want to record search map metrics. Will only be used if execute_plan is also true 
+sample_plan_request_randomly: False # Send plan request instead 
+reset_map_every_plan_request: True # Reset map every plan request

@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="ipp_planners" type="ipp_planners-test" name="unit_tests" output="screen" args=""/>
+
+</launch>

@@ -1,0 +1,35 @@
+# Parameters for MC training data generation
+
+# be sure that these are the same between training and testing
+min_num_targets: 4
+max_num_targets: 6
+min_target_cov: 100
+max_target_cov: 10000
+min_head_cov: 0.0
+max_head_cov: 0.5
+min_speed_cov: 0.0
+max_speed_cov: 8.0
+min_target_speed: 0.0
+max_target_speed: 15.0
+
+map_bounds: 3000
+
+planner_types:
+- rimcts
+# - rpmcts
+
+drone_speed: 50.0
+# planning_time: 10.0 # sample?
+planning_time: 600.0 # sample?
+min_budget: 15000
+max_budget: 25000 # too big?
+
+number_of_trials: 6
+
+
+# If you want to execute the plan in sim or not. 
+# Set to true for collecting quant results, set to false for generating training data
+execute_plan: False
+
+seed_1: []
+seed_2: []

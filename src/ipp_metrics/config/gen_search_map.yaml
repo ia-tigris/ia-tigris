@@ -1,0 +1,14 @@
+# YAML for randomized search map generation
+
+## SEARCH REQUEST PARAMS
+map_width: 4000
+map_height: 2000
+num_gaussians: 15
+min_std_dev: 200
+max_std_dev: 300
+num_samples: 5
+num_search_requests: 1
+prior_discretization: 50
+
+## VISUALIZATION PARAMS
+visualize: False

@@ -1,0 +1,50 @@
+# ONR planner config
+
+# ===== ROS =====
+loop_rate: 10
+# inputs
+plan_request_topic: "planner/plan_request"
+replan_topic: "planner/replan"
+# agent state
+agent_odom_topic: "odom"
+agent_cam_pose_topic: "agent_cam_pose"
+remaining_budget_topic: "remaining_budget"
+waypoint_num_topic: "waypoint_num"
+# waypoint manager (optional)
+use_own_waypoint_manager: false  # whether to use our own simple waypoint manager to determine what waypoint is next
+waypoint_threshold: 4.0  # if `use_own_waypoint_manager: true`, then use this threshold to determine whether the waypoint is met
+# output
+plan_output_topic: "global_path"
+planner_status_topic: "planner_heartbeat"
+visualization: true
+
+
+# ===== PLAN PARAMETERS =====
+# number of seconds after a plan is made to automatically replan again from wherever the drone is. <=0 means no auto replan. 
+# So if the planner gets 10 seconds to plan, and seconds_until_auto_replan is set to 1, the next replan will happen at 
+# 11 seconds after the first plan was requested
+seconds_until_auto_replan: 0.1
+clear_tree_on_auto_replan: false
+use_edge_reward: true
+strict_stay_in_bounds: false # true
+observation_discretization_distance: 400.0  # distance between pink observation boxes
+final_path_discretization_distance: 40.0 # ONR usually 100.0
+use_plan_horizon: true #if we want to use a horizon for replanning instead of full remaining budget
+plan_horizon_length: 1000 # length of horizon we want to plan for. Only used if use_horizon set to true
+
+# reward parameters
+prob_sample_track: 0.5  # probability to sample from tracking rather than searching (searching is 1.0-prob_sample_track)
+track_reward_weight: 1.0
+search_reward_weight: 1.0
+
+information_metric: "variance_accumulated"  # choose "particles", "variance_delta", or "variance_accumulated"
+use_hashmap_for_search: true  # whether to use a hashmap for search or not
+
+# agent parameters
+flight_height: 50
+max_kappa: 1 # This is defined as 1/turn_radius. Wahoo is .005 for gentle turns, maxes out at .01 for sharp turns. ONR sets to 0.0075
+viewpoint_goal: 0.6 # [0, 1], with 1 being the bottom of the frame and 0 being the middle
+
+# ===== VISUALIZATION =====
+vis_rollouts: false
+visualization_scale: 30.0

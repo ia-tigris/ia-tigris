@@ -1,0 +1,155 @@
+# planning parameters
+clear_tree: True
+max_planning_time: 10.0
+maximum_range: 5000
+desired_speed: 25.0
+counter_detection_range: 0.0
+min_loiter_radius: 500.0
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+# drone
+start_pose: 
+  position: 
+    x: 0
+    y: 0
+    z: 110.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 1
+    w: 0
+current_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+# sensor
+sensor_constraints: 
+  min_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  max_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  min_field_of_regard_horizontal: -2.0
+  max_field_of_regard_horizontal: -1.0
+  min_field_of_regard_vertical: -2.0
+  max_field_of_regard_vertical: -1.0
+
+# map
+search_bounds: 
+  points: 
+    - 
+      x: -3000
+      y: -2000
+      z: 0.0
+    - 
+      x: 3000
+      y: -2000
+      z: 0.0
+    - 
+      x: 3000
+      y: -400
+      z: 0.0
+    - 
+      x: -3000
+      y: -400
+      z: 0.0
+
+
+
+# target priors
+target_priors: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 1663867531
+        nsecs: 609695762
+      frame_id: "planner"
+    grid_prior: 
+      header: 
+        seq: 0
+        stamp: 
+          secs: 1663867531
+          nsecs: 609696973
+        frame_id: "planner"
+      grid_prior_type: 1
+      bounds: 
+        points: 
+          - 
+            x: -1400
+            y: -1400
+            z: 0.0
+          - 
+            x: -1000
+            y: -1400
+            z: 0.0
+          - 
+            x: -1000
+            y: -1000
+            z: 0.0
+          - 
+            x: -1400
+            y: -1000
+            z: 0.0
+      confidence: 0.5
+      priority: 1.0
+      sensor_model_id: 0
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 1663867531
+        nsecs: 609695762
+      frame_id: "planner"
+    grid_prior: 
+      header: 
+        seq: 0
+        stamp: 
+          secs: 1663867531
+          nsecs: 609696973
+        frame_id: "planner"
+      grid_prior_type: 1
+      bounds: 
+        points: 
+          - 
+            x: 1400
+            y: -1400
+            z: 0.0
+          - 
+            x: 1000
+            y: -1400
+            z: 0.0
+          - 
+            x: 1000
+            y: -1000
+            z: 0.0
+          - 
+            x: 1400
+            y: -1000
+            z: 0.0
+      confidence: 0.5
+      priority: 5.0
+      sensor_model_id: 0
+
+
+
+
+planner_params:
+  header: 
+      seq: 0
+      stamp: 
+        secs: 1663867531
+        nsecs: 609695762
+      frame_id: "planner"
+
+  prob_sample_track: 0.5
+  track_reward_weight: 1
+  search_reward_weight: 1
+  strict_stay_in_bounds: false

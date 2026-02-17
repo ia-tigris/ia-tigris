@@ -1,0 +1,15 @@
+# max_rollout_depth: 10  
+max_rollout_depth: 5 # (either 5 or 10, but 5 more dense) 
+
+num_actions: 10  # increases exploration at the cost of computation time and memory
+
+exploration_weight: 0.141421356  # sqrt(2) * 0.1
+
+# tree parameters. used if `use_ratio_distance_params: false`
+mcts_extend_angle: 3.1415926
+mcts_extend_radius: 300
+mcts_extend_dist: 3000
+mcts_branches_each_side: 3
+
+# tree parameters as ratios. use these to make the distance parameters be set in proportion to the max bounds measurement
+use_ratio_distance_params: false  

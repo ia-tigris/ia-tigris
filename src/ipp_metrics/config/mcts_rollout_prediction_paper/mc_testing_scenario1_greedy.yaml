@@ -1,0 +1,40 @@
+# Testing parameters for MC testing, quantitative results collection
+
+# each person set these to be the same values
+min_num_targets: 5
+max_num_targets: 5
+
+min_target_cov: 100
+max_target_cov: 500
+min_head_cov: 0.3
+max_head_cov: 1.0
+min_speed_cov: 1.0
+max_speed_cov: 2.0
+min_target_speed: 3.0
+max_target_speed: 5.0
+
+map_bounds: 5000
+
+planner_types:
+# - rimcts
+# - limcts
+# - rpmcts
+- greedy
+# - random
+# - lpmcts
+
+drone_speed: 50.0
+planning_time: 40.0 # sample?
+# hold budget constant
+min_budget: 25000
+max_budget: 25000 
+
+number_of_trials: 3
+
+
+# If you want to execute the plan in sim or not. 
+# Set to true for collecting quant results, set to false for generating training data
+execute_plan: True
+
+seed_1: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+seed_2: [241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218, 241218]

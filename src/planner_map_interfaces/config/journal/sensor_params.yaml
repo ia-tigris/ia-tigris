@@ -1,0 +1,28 @@
+# camera parameters
+sensor_params_path: $(find planner_map_interfaces)/config/$(arg config)
+# TODO: update
+width: 10.0
+height: 10.0
+
+# TODO: update
+focal_length: 15.0
+
+# TODO: could use
+# camera_intrinsics:
+#   fx: 0  # TODO: focal length x
+#   fy: 0  # TODO: focal length y
+#   cx: 0  # TODO: center x
+#   cy: 0  # TODO: center y
+#   s: 0   # TODO: skew
+
+# pitch: 0.523598776 # 0 radians is forward, pi/2 radians is down 1.57079632679, 10 degree is 0.174533, 30 degrees is 0.523598776
+pitch: 1.57079632679 # 0 radians is forward, pi/2 radians is down 1.57079632679, 10 degree is 0.174533, 30 degrees is 0.523598776
+
+
+# observation model parameters
+model_count: 1 # number of sensor models to use
+# the maximum range for each sensor. Used to speed up computation. 
+# The maximum of this vector is used in most methods, so keep the list to a minimum necessary
+max_range: 
+  - 130.0
+

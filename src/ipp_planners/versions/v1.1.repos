@@ -1,0 +1,41 @@
+repositories:
+  core_ompl:
+    type: git
+    url: git@bitbucket.org:castacks/core_ompl.git
+    version: 5540afa9b470bce37dea254b1df7848b0ac9595c
+  core_planning_state_space:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_state_space.git
+    version: bfa37b7212d019cf0e4204cf9e4851893f952ff5
+  core_planning_utils:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_utils.git
+    version: f75fac1fa02e613a9c6e44e046aa2b29b4459d33
+  math_utils:
+    type: git
+    url: git@bitbucket.org:castacks/math_utils.git
+    version: f3f1a2b74ee4d31814747d53832e5674e25f51fa
+  onr_meta:
+    type: git
+    url: git@bitbucket.org:castacks/onr_meta.git
+    version: e415ffc89862f463f4cbaf391c2af3ed8ab9e4d5
+  ipp_planners:
+    type: git
+    url: git@github.com:castacks/ipp_planners.git
+    version: 2bac8ea297d930b293a19a299ee83989cb6e8509
+  planner_map_interfaces:
+    type: git
+    url: git@bitbucket.org:castacks/planner_map_interfaces.git
+    version: 4a2975674f099aad614a72163bfed09c5455d6a0
+  ipp_simple_sim:
+    type: git
+    url: git@github.com:castacks/simple_ships_simulator.git
+    version: 1dda0eafb4eaf957c3270bab395033b03a89cff1
+  simulated_perception:
+    type: git
+    url: git@github.com:castacks/simulated_perception.git
+    version: e6ad321d9730f5ac1e5b8d02fb37c51c1b8cd96b
+  ipp_belief:
+    type: git
+    url: git@github.com:castacks/ipp_belief.git
+    version: 1e62a5eb9db9f8333bf2c410816f4e2d83811e0c

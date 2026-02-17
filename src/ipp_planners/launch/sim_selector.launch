@@ -1,0 +1,27 @@
+
+<!-- Select which simulator to laundh  -->
+
+<launch>
+    <!-- ===== ARGUMENTS ===== -->
+    <!-- Simulator -->
+    <!-- Options:  false, simple, firevision -->
+    <arg name="config" default="onr"/>
+    <arg name="sim" default="false"/>
+    <arg name="robot_name" default="false"/>
+    <arg name="robot_names" default="[uav1]"/>
+
+    <!-- ===== INCLUDES ===== -->
+
+    <!-- Simple simulator -->
+    <include file="$(find ipp_simple_sim)/launch/sim.launch" if="$(eval arg('sim') == 'simple')" pass_all_args="true"/>
+
+    <!-- CHAMP -->
+    <include file="$(find ipp_isaac_sim)/launch/sim.launch" if="$(eval arg('sim') == 'isaac')" pass_all_args="true"/>
+
+    <!-- FIReVision -->
+    <include file="$(find firevision_sim)/launch/firevision_sim.launch" if="$(eval arg('sim') == 'firevision')" pass_all_args="true"/>
+
+
+
+
+</launch>

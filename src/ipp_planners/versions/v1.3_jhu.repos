@@ -1,0 +1,29 @@
+repositories:
+  core_ompl:
+    type: git
+    url: git@bitbucket.org:castacks/core_ompl.git
+    version: 5540afa9b470bce37dea254b1df7848b0ac9595c
+  core_planning_state_space:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_state_space.git
+    version: bfa37b7212d019cf0e4204cf9e4851893f952ff5
+  core_planning_utils:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_utils.git
+    version: f75fac1fa02e613a9c6e44e046aa2b29b4459d33
+  math_utils:
+    type: git
+    url: git@bitbucket.org:castacks/math_utils.git
+    version: f3f1a2b74ee4d31814747d53832e5674e25f51fa
+  onr_tigris:
+    type: git
+    url: git@bitbucket.org:castacks/onr_tigris.git
+    version: 04b7aa0b76207e929a37da7fa66f10e43b2a72c7
+  planner_map_interfaces:
+    type: git
+    url: git@bitbucket.org:castacks/planner_map_interfaces.git
+    version: f30521b78f71273511c52e2eba7c802ffde57f68
+  ipp_belief:
+    type: git
+    url: git@bitbucket.org:castacks/ipp_belief.git
+    version: 8e06128c752ab67254606d022ea8fd38343251cf

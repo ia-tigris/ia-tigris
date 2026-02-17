@@ -1,0 +1,45 @@
+# Testing parameters for MC testing, quantitative results collection
+
+# each person set these to be the same values
+min_num_targets: 6
+max_num_targets: 6
+
+min_target_cov: 2000
+max_target_cov: 10000
+min_head_cov: 0.5
+max_head_cov: 1.2
+min_speed_cov: 0.0
+max_speed_cov: 2.0
+min_target_speed: 5.0
+max_target_speed: 8.0
+
+map_bounds: 3000
+
+planner_types:
+# - greedy
+# - random
+# - rimcts
+- limcts
+# - rpmcts
+# - lpmcts
+
+drone_speed: 50.0
+planning_time: 40.0 # sample?
+# hold budget constant
+min_budget: 30000
+max_budget: 30000 
+
+number_of_trials: 20
+
+# Visualization options
+vis_particle_sparse: false
+vis_particle_sparse_rate: 10
+vis_particle_size: 100
+vis_path_width: 50
+
+# If you want to execute the plan in sim or not. 
+# Set to true for collecting quant results, set to false for generating training data
+execute_plan: True
+
+seed_1: [418176, 353985, 663266, 410061, 357341, 822580, 220829, 960628, 438803, 775014, 985658, 437731, 828697, 995329, 469918, 510203, 81298, 841315, 411908, 306322, 260479, 935394, 606354, 503946, 792822]
+seed_2: [336260, 298547, 140157, 609920, 832928, 847203, 205830, 301255, 150410, 85816, 368361, 699342, 243466, 397979, 320437, 252877, 764697, 61721, 367588, 166402, 924190, 383780, 590872, 356327, 937327]

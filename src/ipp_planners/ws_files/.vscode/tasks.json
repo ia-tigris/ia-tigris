@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "catkin",
+			"args": [
+				"build", 
+				"--workspace",
+				"${workspaceFolder}"
+			],
+			"problemMatcher": [
+				"$catkin-gcc"
+			],
+			"group": "build",
+			"label": "catkin: build"
+		}
+	]
+}

@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "WILDFIRE main.launch - Search & Track",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/ipp_planners/launch/main.launch",
+            "preLaunchTask": "catkin: build",
+            "arguments": ["config:=wildfire", "search:=true", "track:=true", "rviz:=true", "vis_while_planning:=true", "planner:=tigris", "perception:=true", "loglevel:=debug", "sim:=false"]
+        },
+        {
+            "name": "main.launch - Search & Track",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/ipp_planners/launch/main.launch",
+            "preLaunchTask": "catkin: build",
+            "arguments": ["search:=true", "track:=true", "rviz:=true", "vis_while_planning:=true", "planner:=tigris", "loglevel:=debug", "sim:=simple"]
+        },
+        {
+            "name": "main.launch - Search & Track no sim",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/ipp_planners/launch/main.launch",
+            "preLaunchTask": "catkin: build",
+            "arguments": ["search:=true", "track:=true", "rviz:=true", "vis_while_planning:=true", "planner:=tigris", "loglevel:=debug", "sim:=false"]
+        },
+        {
+            "name": "main.launch - Search Only",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/ipp_planners/launch/main.launch",
+            "preLaunchTask": "catkin: build",
+            "arguments": ["search:=true", "track:=false", "rviz:=true", "vis_while_planning:=true", "planner:=tigris", "loglevel:=debug", "sim:=simple"]
+        },
+        {
+            "name": "main.launch - Track Only",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/ipp_planners/launch/main.launch",
+            "preLaunchTask": "catkin: build",
+            "arguments": ["search:=false", "track:=true", "rviz:=true", "vis_while_planning:=true", "planner:=tigris", "loglevel:=debug", "sim:=simple"]
+        },
+    ]
+}

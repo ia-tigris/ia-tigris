@@ -1,0 +1,7 @@
+# ask to setup the search map
+geometry_msgs/Polygon search_bounds
+planner_map_interfaces/TargetPrior[] target_priors
+
+float32 flight_height
+---
+bool setup_response

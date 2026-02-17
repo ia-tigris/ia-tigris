@@ -1,0 +1,35 @@
+<launch>
+    <arg name="sim" default="true"/> 
+    <arg name="rviz" default="true"/>
+    <arg name="config" default="research"/>
+    <arg name="rviz_file" default="$(arg config).rviz"/>
+    <arg name="search" default="true"/>
+    <arg name="track" default="false"/>
+
+    <include file="$(find ipp_planners)/launch/main.launch">
+        <arg name="robot_name" value="uav1"/>
+        <arg name="rviz" value="false"/>
+        <arg name="sim" value="false"/>
+        <arg name="search" value="$(arg search)"/>
+        <arg name="track" value="$(arg track)" />
+        <arg name="config" default="$(arg config)"/>
+    </include>
+
+    <include file="$(find ipp_planners)/launch/main.launch">
+        <arg name="robot_name" value="uav2"/>
+        <arg name="rviz" value="false"/>
+        <arg name="sim" value="false"/>
+        <arg name="search" value="$(arg search)"/>
+        <arg name="track" value="$(arg track)" />
+        <arg name="config" default="$(arg config)"/>
+    </include>
+
+    <include file="$(find ipp_simple_sim)/launch/sim.launch" if="$(arg sim)" pass_all_args="true">
+        <arg name="robot_names" value="[uav1, uav2]"/>
+        <arg name="simulate_perception" value="false"/>
+    </include>
+
+     <group if="$(arg rviz)">
+        <node type="rviz" name="planner_rviz" pkg="rviz" args="-d $(find ipp_planners)/config/$(arg config)/$(arg rviz_file)" />
+    </group>
+</launch>

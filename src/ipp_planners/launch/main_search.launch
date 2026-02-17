@@ -1,0 +1,77 @@
+<!-- Top level launch file. -->
+
+<launch>
+    <!-- =========== START GENERAL LAUNCH ===========  -->
+    <!-- Overarching config subfolder name -->
+    <arg name="config" default="onr"/>
+
+    <!-- Robot namespace. We use "robot_name" to be compatible with AirLab Core Stack -->
+    <arg name="robot_name" default="uav1_search"/>
+
+    <!-- Objective:  -->
+    <arg name="search" default="true"/>
+    <arg name="track" default="false"/>
+
+    <!-- =========== END GENERAL LAUNCH =============  -->
+
+    <!-- =========== START SIMULATOR LAUNCH ===========  -->
+    <!-- ~~~ ARGUMENTS ~~~ -->
+
+    <group ns="$(arg robot_name)">
+        <!-- =========== START PERCEPTION LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <arg name="perception" default="false"/>
+        <arg name="use_docker_obj_det" default="false"/>
+			  <arg name="use_docker" value="$(arg use_docker_obj_det)" />
+        <!-- Launch the perception node -->
+
+        <group ns="sensor">
+            <rosparam subst_value="true" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />
+        </group>
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- real perception -->
+        <include file="$(find object_detection)/launch/ipp_computer_vision.launch" if="$(eval arg('perception') == true)" pass_all_args="true" />
+        <!-- fake perception for simple sim -->
+        <include file="$(find simulated_perception)/launch/simulated_perception.launch" if="$(eval arg('perception') == false and arg('sim') == 'simple')" pass_all_args="true"/>
+        <!-- =========== END PERCEPTION LAUNCH =============  -->
+
+
+        <!-- =========== START BELIEF LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <!-- Launch the belief nodes -->
+
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- search belief -->
+        <include file="$(find ipp_planners)/launch/search_belief.launch" if="$(arg search)" pass_all_args="true" />
+        <!-- track belief -->
+        <include file="$(find ipp_belief)/launch/ipp_belief.launch" if="$(arg track)" pass_all_args="true" />
+
+        <!-- =========== END BELIEF LAUNCH =============  -->
+
+
+        <!-- =========== START PLANNER LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <!-- Planner -->
+        <arg name="planner" default="tigris"/>
+
+        <!-- Learning -->
+        <arg name="gen_train_data" default="false"/>
+
+        <!-- visualize plans while plan is being made. Note this adds to planning time -->
+        <arg name="vis_while_planning" default="false"/>
+
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- Launch the planning node -->
+        <group if="$(eval arg('planner') != 'false')">
+            <include file="$(find ipp_planners)/launch/planner.launch" pass_all_args="true" />
+            <node pkg="ipp_planners" type="planner_simple_waypoint_manager.py" name="planner_simple_waypoint_manager" output="screen" respawn="true" if="$(eval arg('config') == 'wildfire')" />
+        </group>
+        <!-- =========== END PLANNER LAUNCH =============  -->
+
+
+        <!-- =========== START CONTROLS LAUNCH===========  -->
+        <!-- Nothing for now -->
+        <!-- =========== END CONTROLS LAUNCH =============  -->
+    </group>
+
+</launch>

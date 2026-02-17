@@ -1,0 +1,172 @@
+header: 
+  seq: 0
+  stamp: 
+    secs: 1695827184
+    nsecs: 717289408
+  frame_id: "planner"
+start_pose: 
+  position: 
+    x: -1385.2904335
+    y: 2064.71662002
+    z: 110.541
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: -0.00011784068282
+    w: 0.0 # any value here may cause simple sim to rotate in place. 0.999999993057
+current_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+max_planning_time: 15.0
+maximum_range: 50400.0  #50,400 meters is 1 hour flight at 14 m/s
+desired_speed: 14.0
+search_bounds: # represents Pacific test, 100,000 x 100,000 yards
+  points: 
+    - 
+      x: 1299.57519531
+      y: -6430.63037109
+      z: 0.0
+    - 
+      x: 1302.61791992
+      y: 2713.51196289
+      z: 0.0
+    - 
+      x: -7841.52294922
+      y: 2716.5559082
+      z: 0.0
+    - 
+      x: -7844.56542969
+      y: -6427.58642578
+      z: 0.0
+#---
+counter_detection_range: 50.0
+min_loiter_radius: 20.0
+sensor_constraints: 
+  min_direction: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  max_direction: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  min_field_of_regard_horizontal: 0.0
+  max_field_of_regard_horizontal: 0.0
+  min_field_of_regard_vertical: 0.0
+  max_field_of_regard_vertical: 0.0
+target_priors: 
+  - 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 1695827184
+        nsecs: 718357504
+      frame_id: "planner"
+
+    grid_prior: 
+      header: 
+        seq: 0
+        stamp: 
+          secs: 1695827184
+          nsecs: 718358176
+        frame_id: "planner"
+      grid_prior_type: 1
+      bounds: # same as search area
+        points: 
+          - 
+            x: 1299.57519531
+            y: -6430.63037109
+            z: 0.0
+          - 
+            x: 1302.61791992
+            y: 2713.51196289
+            z: 0.0
+          - 
+            x: -7841.52294922
+            y: 2716.5559082
+            z: 0.0
+          - 
+            x: -7844.56542969
+            y: -6427.58642578
+            z: 0.0
+      confidence: 0.45
+      priority: .45
+      sensor_model_id: 0
+# -----next grid prior
+  - 
+    header: 
+      seq: 1
+      stamp: 
+        secs: 1695827184
+        nsecs: 718357504
+      frame_id: "planner"
+    grid_prior:  
+      header: 
+        seq: 1
+        stamp: 
+          secs: 1695827184
+          nsecs: 718358176
+        frame_id: "planner"
+      grid_prior_type: 1
+      bounds:  # small grid that could represent cscape target
+        points:
+          - 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+          - 
+            x: -300
+            y: 0.0
+            z: 0.0
+          - 
+            x: -300.0
+            y: 300.0
+            z: 0.0
+          - 
+            x: 0.0
+            y: 300.0
+            z: 0.0
+      confidence: 2.0  # make high and priority zero so paths will bias away from grid
+      priority: 1.0    # make high and confidence low to have paths come to grid
+      sensor_model_id: 0
+
+# keep out zone
+keep_out_zones:
+  - 
+    header: 
+      frame_id: "local_enu"
+    x: -160.01
+    y: 170.0
+    radius: 20.0  #meters
+  - 
+    header: 
+      frame_id: "local_enu"
+    x: -0.0
+    y: 750.0
+    radius: 150.0  #meters
+
+# ---    
+clear_tree: False
+planner_params: 
+  header: 
+    seq: 1
+    stamp: 
+      secs: 1695827184
+      nsecs: 717289408
+    frame_id: "planner"
+  strict_stay_in_bounds: true
+  prob_sample_track: 0.5
+  track_reward_weight: 1.0
+  search_reward_weight: 1.0
+  flight_height: 110.541015625
+  max_kappa: 0.0142857143655
+scenario: 0
+local_origin: 
+  latitude: 34.2662247
+  longitude: -118.8198552
+  altitude: 0.0

@@ -1,0 +1,15 @@
+# Tigris-specific config, to be included after planner.yaml
+
+# tree parameters. used if `use_ratio_distance_params: false`
+primtreebnb_extend_angle: 3.1415926
+primtreebnb_extend_radius: 300
+primtreebnb_extend_dist: 3000
+primtreebnb_branches_each_side: 3
+
+num_cell_upperbound: 100
+max_mode: "max_one_in_map"
+
+# tree parameters as ratios. use these to make the distance parameters be set in proportion to the max bounds measurement
+use_ratio_distance_params: false  
+extend_dist_ratio: .6  
+extend_radius_ratio: .6

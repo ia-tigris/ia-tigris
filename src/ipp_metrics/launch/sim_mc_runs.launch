@@ -1,0 +1,120 @@
+<!-- Launches simulator, belief, and planner as a whole pipeline -->
+
+<launch>
+    <!-- ===== ARGUMENTS ===== -->
+    <arg name="config" default="research"/>
+    <arg name="robot_name" default="uav1"/>
+
+    <arg name="rviz" default="false"/>
+    <arg name="rosbridge" default="false"/>
+    <arg name="record" default="false"/>
+    <arg name="sim" default="false"/>
+
+    <arg name="mc_config" default="mc_testing_search1.yaml"/>
+    <arg name="include_cpu_mem_monitor" default="false"/>
+    <arg name="cpu_mem_csv_file" default="cpu_monitor.csv"/>
+
+    <!-- Enable debug log level  -->
+    <arg name="loglevel" default="info"/>
+    <env name="ROSCONSOLE_CONFIG_FILE"
+        value="$(find ipp_planners)/config/logging/rosconsole_$(arg loglevel).config"/>
+
+    <!-- planner logging -->
+    <arg name="log_plan_metrics" default="true"/>
+    <arg name="plan_metrics_csv_directory" default="$(find metrics)/sim_mc_runs/search_scenario_1/" />
+
+    <!-- Objective:  -->
+    <arg name="search" default="true"/>
+    <arg name="track" default="false"/>
+
+    <!-- Learning -->
+    <arg name="gen_train_data" default="false"/>
+
+    <!-- Visualize plans while plan is being made. Note this adds to planning time -->
+    <arg name="vis_while_planning" default="false"/>
+
+    <!-- ===== INCLUDES ===== -->
+
+    <!-- Simulator Selector -->
+    <include file="$(find ipp_planners)/launch/sim_selector.launch" pass_all_args="true">
+        <!-- Turn single name into list of names -->
+        <arg name="robot_names" value="[]"/>
+    </include>
+
+    <!-- CPU and Memory Monitor -->
+    <group if="$(arg include_cpu_mem_monitor)"> 
+        <include file="$(find cpu_monitor)/launch/cpu_monitor.launch">
+            <arg name="save_to_csv" value="true" />
+            <arg name="csv_file" value="$(arg cpu_mem_csv_file)" />
+        </include>
+    </group>
+    
+
+    <!--  Simulated Observation -->
+    <!-- <include file="$(find simulated_perception)/launch/simulated_perception.launch" /> -->
+
+    <!-- Planner -->
+    <!-- <arg name="planner_config" subst_value="True" default="$(find ipp_planners)/config/$(arg config)/planner.yaml"/> -->
+
+    <!-- ===== ROSPARAM SERVER ===== -->
+
+    
+    <!-- General planner parameters-->
+    <arg name="rviz_file" default="tigris_search_track.rviz" />
+    <!-- choose "tigris", "mcts" -->
+    <arg name="planner" default="tigris" />
+
+
+    <!-- ===== INCLUDES ===== -->
+        <!-- launch search -->
+        <include file="$(find ipp_planners)/launch/search_belief.launch" if="$(arg search)" pass_all_args="true">
+            <arg name="pub_search_map_metrics" value="true"/>
+        </include>
+
+        <!-- launch track -->
+        <include file="$(find ipp_belief)/launch/ipp_belief.launch" if="$(arg track)"/>
+
+        <group ns="sensor">
+            <rosparam subst_value="True" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />
+        </group>
+
+
+        <node pkg="metrics" type="kill_all_nodes.py" name="kill_all_nodes" output="screen" />
+
+        <node pkg="metrics" type="metrics_mc_node" name="ipp_planners_node" output="screen" args="" required="true">
+            <param name="config" type="string" value="$(arg config)"/>
+            <param name="planner" type="string" value="$(arg planner)" />
+            <!-- base planner config -->
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/planner.yaml" />           
+            <rosparam file="$(find metrics)/config/$(arg mc_config)" />
+            <!-- additional planner-specific configs -->
+            <rosparam file="$(find ipp_planners)/config/$(arg config)/greedy.yaml" />
+            <rosparam file="$(find ipp_planners)/config/$(arg config)/tigris.yaml" />
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/mcts.yaml" />
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/search_map.yaml" />
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/primtree.yaml" />
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/primtreebnb.yaml" />
+            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/mcts_search.yaml" />
+
+            <param name="search" type="bool" value="$(arg search)" />
+            <param name="track" type="bool" value="$(arg track)" />
+
+            <param name="use_sim" type="string" value="$(arg sim)" />
+
+            <param name="gen_train_data" type="bool" value="$(arg gen_train_data)" />
+            <param name="vis_while_planning" type="bool" value="$(arg vis_while_planning)" />
+
+            <param name="log_plan_metrics" value="$(arg log_plan_metrics)"/>
+            <param name="plan_metrics_csv_directory" value="$(arg plan_metrics_csv_directory)"/>
+        </node>
+
+    <group if="$(arg rviz)">
+        <node type="rviz" name="tigris_rviz" pkg="rviz" args="-d $(find ipp_planners)/config/rviz_extra/$(arg rviz_file)" />
+    </group>
+
+    <group if="$(arg record)">
+        <include file="$(find metrics)/launch/metrics.launch" />
+    </group>
+
+
+</launch>

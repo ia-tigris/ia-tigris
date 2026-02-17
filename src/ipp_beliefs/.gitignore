@@ -1,0 +1,10 @@
+.idea/
+.ipynb_checkpoints/
+__pycache__/
+*.mp4
+logs/
+build/
+devel/
+.catkin_tools/
+cmake-build-debug/
+*.zip

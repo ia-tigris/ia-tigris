@@ -1,0 +1,57 @@
+repositories:
+  core_ompl:
+    type: git
+    url: git@bitbucket.org:castacks/core_ompl.git
+    version: 7247d187a8d02dbc88cc8e46439e91ed5fb05fdd
+  core_planning_state_space:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_state_space.git
+    version: bafb64afdad86425bf01a2535cb666701ba3f435
+  core_planning_utils:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_utils.git
+    version: f75fac1fa02e613a9c6e44e046aa2b29b4459d33
+  cpu_monitor:
+    type: git
+    url: git@github.com:castacks/cpu_monitor.git
+    version: 2fe712a1b55c3307206371995a435926bb087a84
+  ipp_beliefs:
+    type: git
+    url: git@github.com:castacks/ipp_beliefs.git
+    version: e6b4a10f453d89b35d554c3b0eb6964f7758f13a
+  ipp_gui:
+    type: git
+    url: git@github.com:castacks/ipp_gui.git
+    version: ac9defd8a670c13c2ec4375530aefa07b23ef77e
+  ipp_metrics:
+    type: git
+    url: git@github.com:castacks/ipp_metrics.git
+    version: 7bcb1433e35f44e25ce12bf39ab6857ef6e3fae7
+  ipp_planners:
+    type: git
+    url: git@github.com:castacks/ipp_planners.git
+    version: d9f79e578ea6b780f27b8616a8838829d340bda4
+  ipp_simple_sim:
+    type: git
+    url: git@github.com:castacks/simple_ipp_sim.git
+    version: 0ec2d49d578ac9271bab6ee8fbcba9ca0e131a8d
+  math_utils:
+    type: git
+    url: git@bitbucket.org:castacks/math_utils.git
+    version: 70ab9f6420447f8a391f0a2325582eb706b44507
+  onr_meta:
+    type: git
+    url: git@bitbucket.org:castacks/onr_meta.git
+    version: 435c32a9c35d0327c3ebb3646f273747264dba10
+  planner_map_interfaces:
+    type: git
+    url: git@github.com:castacks/planner_map_interfaces.git
+    version: 103a530de8ba0cbc5935453f5643e2c1ce51b803
+  simulated_perception:
+    type: git
+    url: git@github.com:castacks/simulated_perception.git
+    version: 7fe8a243284d545ef213495018e6fa3a2efbd665
+  trochoids:
+    type: git
+    url: git@github.com:castacks/trochoids.git
+    version: 89c8d84b93f15a8824fac85ac417611f6ca88bf5

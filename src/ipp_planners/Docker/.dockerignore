@@ -1,0 +1,18 @@
+# Must copy this to the root directory before building
+
+libtorch/
+.vscode/
+*/.vscode
+build/
+devel/
+logs/
+.catkin_tools/
+src/ipp_planners/results/
+src/ipp_planners/test_results/
+
+
+# OMPL
+**/.git
+**/*.pyc
+**/*.so
+**/*.dylib

@@ -1,0 +1,9 @@
+<launch>
+    <arg name="rviz" default="false"/>
+
+    <!-- passes RViz arg -->
+    <include file="$(find ipp_belief)/launch/ipp_belief.launch" pass_all_args="true"/>
+    <include file="$(find planner_map_interfaces)/launch/planner_request_trigger.launch" />
+    <include file="$(find simulated_perception)/launch/simulated_perception.launch" />
+
+</launch>

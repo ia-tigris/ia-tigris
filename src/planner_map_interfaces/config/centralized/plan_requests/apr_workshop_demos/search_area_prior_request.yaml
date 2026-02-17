@@ -1,0 +1,117 @@
+# planning parameters
+clear_tree: True
+max_planning_time: 10.0
+maximum_range: 15000.0
+desired_speed: 25.0
+counter_detection_range: 50.0
+min_loiter_radius: 500.0
+wind_speed: 
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+# drone
+start_pose: 
+  position: 
+    x: -183.65232354493142
+    y: -155.65240444356866
+    z: 110.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 1.0
+    w: 0.0
+current_speed: 
+  x: 12.0
+  y: 9.0
+  z: 0.1
+
+# sensor
+sensor_constraints: 
+  min_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  max_direction: 
+    x: -2.0
+    y: -2.0
+    z: -2.0
+  min_field_of_regard_horizontal: -2.0
+  max_field_of_regard_horizontal: -1.0
+  min_field_of_regard_vertical: -2.0
+  max_field_of_regard_vertical: -1.0
+
+# map
+search_bounds: 
+  points: 
+    - 
+      x: 667.75732421875
+      y: -185.69512939453125
+      z: 0.0
+    - 
+      x: 667.7438354492188
+      y: 335.67547607421875
+      z: 0.0
+    - 
+      x: -183.5911102294922
+      y: 335.6534729003906
+      z: 0.0
+    - 
+      x: -183.57763671875
+      y: -185.71713256835938
+      z: 0.0
+
+# target priors
+target_priors: 
+  - 
+    grid_prior: 
+      header: 
+        frame_id: "local_enu"
+      grid_prior_type: 1
+      bounds: 
+        points:
+          - 
+            x: 640.0
+            y: -160.0
+            z: 0.0
+          - 
+            x: 640.0
+            y: 320.0
+            z: 0.0
+          - 
+            x: -170.0
+            y: 320.0
+            z: 0.0
+          - 
+            x: -170.0
+            y: -160.0
+            z: 0.0
+      confidence: 0.2
+      priority: 1.0
+      sensor_model_id: 0
+  - 
+    grid_prior: 
+      header: 
+        frame_id: "local_enu"
+      grid_prior_type: 1
+      bounds: 
+        points:
+          - 
+            x: 420.8428039550781
+            y: -102.43165588378906
+            z: -297.8446960449219
+          - 
+            x: 420.8410949707031
+            y: -62.43165588378906
+            z: -297.84417724609375
+          - 
+            x: 380.8410949707031
+            y: -62.43336868286133
+            z: -297.8416748046875
+          - 
+            x: 380.8428039550781
+            y: -102.43336486816406
+            z: -297.8421936035156
+      confidence: .5
+      priority: 1.5
+      sensor_model_id: 0

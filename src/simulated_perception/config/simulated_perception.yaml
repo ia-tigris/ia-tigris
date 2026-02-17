@@ -1,0 +1,8 @@
+loop_rate: 20
+observation_reset_gap: 5
+simple_sim_kalman_filtering: true
+
+# AirSim Params
+airsim_targets_passthrough: false
+airsim_targets_topic: "/airsim_node/sim_object_poses_array"
+airsim_ownship_topic: "/airsim_node/FixedWing/odom_local_ned"

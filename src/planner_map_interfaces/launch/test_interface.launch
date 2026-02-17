@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="planner_map_interfaces" type="planner_map_interfaces_node" 
+    name="planner_map_interfaces_node" output="screen">
+    </node>
+
+    <include file="$(find planner_map_interfaces)/launch/planner_request_trigger.launch" />
+</launch>

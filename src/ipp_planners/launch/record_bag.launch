@@ -1,0 +1,51 @@
+
+<launch>
+    <arg name="record_bag" default="false"/>
+    <arg name="record_params" default="true"/>
+    <arg name="robot_name" default="simulator"/>
+    <arg name="save_dir" default="/tmp"/>
+
+    <!-- Record topics -->
+    <node pkg="rosbag" type="record" name="cmu_bag_recorder" args="--lz4 -o $(arg save_dir)/planner_bag -e
+    /rosout
+    /(.*)/global_path
+    /(.*)/global_path/arrows
+    /(.*)/global_path/counterdetect_cyl
+    /(.*)/global_path/final_path
+    /(.*)/global_path/keep_out_zones
+    /(.*)/global_path/nodes
+    /(.*)/global_path/planner_boundary
+    /(.*)/global_path/sampled_points
+    /(.*)/global_path/tree
+    /(.*)/particle_filters_visualizer
+    /(.*)/planner_heartbeat
+    /(.*)/planner/plan_request
+    /(.*)/planner/replan
+    /(.*)/search_belief
+    /(.*)/sensor_constraint
+    /(.*)/realtime_search/markers/agent_pose
+    /agent_pose
+    /(.*)/odom
+    /(.*)/camera_pose
+    /(.*)/sensor_measurement
+    /(.*)/target_poses
+    /(.*)/waypoint_num
+    /(.*)/markers/agent_pose
+    /(.*)/markers/agent_trajectory
+    /(.*)/markers/camera_projection
+    /(.*)/markers/targets
+    /(.*)/filtered_targets
+    /(.*)/observation_with_cov
+    /(.*)/ipp_belief/particle_filters_belief
+    /(.*)/ipp_belief/total_variance
+    /(.*)/ipp_belief/variance_array
+    /tf
+    "
+    if="$(arg record_bag)" />
+    
+    <node pkg="ipp_planners" type="record_params.py" name="cmu_param_recorder" output="screen" if="$(arg record_params)">
+        <param name="robot_name" value="$(arg robot_name)"/>
+        <param name="save_dir" value="$(arg save_dir)"/>
+    </node>
+
+</launch>

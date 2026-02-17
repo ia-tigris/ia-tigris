@@ -1,0 +1,5 @@
+<launch>
+    <node name="metrics_node" pkg="metrics" type="record_tracking_metrics.py" output="screen" respawn="true">
+    
+    </node>
+</launch>

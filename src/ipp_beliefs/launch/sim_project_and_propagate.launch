@@ -1,0 +1,16 @@
+<!-- Run this launch file to run propagation with the simple sim and simulated projection -->
+<launch>
+    <arg name="rviz" default="false"/>
+    <include file="$(find ipp_simple_sim)/launch/sim.launch" />
+    <!-- passes RViz arg -->
+    <include file="$(find ipp_belief)/launch/ipp_belief.launch" pass_all_args="true"/>
+    <include file="$(find planner_map_interfaces)/launch/planner_request_trigger.launch" />
+    <include file="$(find simulated_perception)/launch/simulated_perception.launch" />
+
+    <arg name="plan_start_delay" default="1.0" />  
+    <node pkg="rosservice" type="rosservice" name="send_plan_request" 
+        args="call --wait /planner_mock_trigger true true" 
+        launch-prefix="bash -c 'sleep $(arg plan_start_delay); $0 $@' " 
+    /> 
+
+</launch>

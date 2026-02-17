@@ -1,0 +1,33 @@
+<!-- Launches the real time search map belief -->
+
+<launch>
+    <!-- ===== ARGUMENTS ==== -->
+    <!-- Overarching config subfolder name -->
+    <arg name="config" default="onr"/>
+    <arg name="pub_search_map_metrics" default='false'/>
+
+    <!-- Agent state namespace -->
+    <arg name="robot_name" default="simulator"/>
+
+    <!-- Planner -->
+    <arg name="planner" default="tigris"/>
+
+    <!-- Planner -->
+    <arg name="sim" default="false"/>
+
+    <!-- ===== NODES ===== -->
+    <node pkg="ipp_planners" type="ipp_planners_search_map" name="realtime_search_map" output="screen" args="">
+        <!-- search config -->
+        <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/search_map.yaml" />
+        <!-- base planner config -->
+        <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/planner.yaml" />
+        <!-- additional planner-specific configs -->
+        <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/$(arg planner).yaml" />
+        <!-- can override value in yaml here -->
+        <param name="pub_search_map_metrics" type="bool" value="$(arg pub_search_map_metrics)"/>
+        <!-- pass in sim param so we can turn off and on turn ignoring -->
+        <param name="sim" type="string" value="$(arg sim)"/>
+    </node>
+
+
+</launch>

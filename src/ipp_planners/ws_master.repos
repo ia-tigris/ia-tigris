@@ -1,0 +1,49 @@
+repositories:
+  core_ompl:
+    type: git
+    url: git@bitbucket.org:castacks/core_ompl.git
+    version: ipp
+  core_planning_state_space:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_state_space.git
+    version: master
+  core_planning_utils:
+    type: git
+    url: git@bitbucket.org:castacks/core_planning_utils.git
+    version: master
+  cpu_monitor:
+    type: git
+    url: git@github.com:castacks/cpu_monitor.git
+    version: master
+  ipp_beliefs:
+    type: git
+    url: git@github.com:castacks/ipp_beliefs.git
+    version: master
+  ipp_metrics:
+    type: git
+    url: git@github.com:castacks/ipp_metrics.git
+    version: master
+  ipp_planners:
+    type: git
+    url: git@github.com:castacks/ipp_planners.git
+    version: master
+  ipp_simple_sim:
+    type: git
+    url: git@github.com:castacks/ipp_simple_sim.git
+    version: master
+  math_utils:
+    type: git
+    url: git@bitbucket.org:castacks/math_utils.git
+    version: master
+  planner_map_interfaces:
+    type: git
+    url: git@github.com:castacks/planner_map_interfaces.git
+    version: master
+  simulated_perception:
+    type: git
+    url: git@github.com:castacks/simulated_perception.git
+    version: master
+  trochoids:
+    type: git
+    url: git@github.com:castacks/trochoids.git
+    version: master
