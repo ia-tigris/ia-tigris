@@ -15,7 +15,13 @@ This repository is the catkin workspace root:
 - `src/` contains ROS packages
 - `build/`, `devel/`, `logs/` are generated artifacts
 
-After cloning:
+Clone with submodules:
+
+```bash
+git clone --recurse-submodules <repo-url>
+```
+
+If already cloned, run:
 
 ```bash
 git submodule update --init --recursive
