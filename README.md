@@ -35,6 +35,15 @@ From repo root:
 
 ```bash
 source /opt/ros/noetic/setup.bash
+sudo apt update
+sudo apt install -y \
+  python3-empy \
+  python3-catkin-tools \
+  python3-rosdep \
+  python3-vcstool
+sudo rosdep init || true
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
 catkin config --extend /opt/ros/noetic
 catkin build --no-status --summarize
 source devel/setup.bash
