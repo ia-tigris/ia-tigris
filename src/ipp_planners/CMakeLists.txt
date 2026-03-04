@@ -1,5 +1,13 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5...3.27)
 project(ipp_planners)
+
+# Set CMake policies conditionally for compatibility
+if(POLICY CMP0148)
+  cmake_policy(SET CMP0148 OLD)  # Use old Python modules for ROS compatibility
+endif()
+
+# Disable ROS1 EOL warnings
+set(ENV{DISABLE_ROS1_EOL_WARNINGS} "1")
 
 # # Compile as C++17
 add_compile_options(-std=c++17 -lstdc++fs)
@@ -23,7 +31,7 @@ find_package(catkin REQUIRED COMPONENTS
   ipp_belief
   trochoids
 )
-message(WARNING "CMAKE_BUILD_TYPE IS ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMAKE_BUILD_TYPE IS ${CMAKE_BUILD_TYPE}")
 
 # set the default build type
 if(NOT CMAKE_BUILD_TYPE)
