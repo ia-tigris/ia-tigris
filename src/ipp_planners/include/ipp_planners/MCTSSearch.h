@@ -1,7 +1,4 @@
 #pragma once
-// #ifdef USE_MCTS
-
-#pragma once
 #include <cmath>
 #include <memory>
 #include <stack>

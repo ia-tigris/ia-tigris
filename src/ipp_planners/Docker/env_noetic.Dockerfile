@@ -1,5 +1,5 @@
 # image target for entire workspace
-# run this from the worspace root directory so src and libtorch are loaded correctly
+# run this from the workspace root directory so src is loaded correctly
 FROM ros:noetic as planner_demo
 ARG WS=/workspace
 ARG ROOT=.

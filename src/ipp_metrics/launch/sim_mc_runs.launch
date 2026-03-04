@@ -83,7 +83,6 @@
             <!-- additional planner-specific configs -->
             <rosparam file="$(find ipp_planners)/config/$(arg config)/greedy.yaml" />
             <rosparam file="$(find ipp_planners)/config/$(arg config)/tigris.yaml" />
-            <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/mcts.yaml" />
             <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/search_map.yaml" />
             <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/primtree.yaml" />
             <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/primtreebnb.yaml" />

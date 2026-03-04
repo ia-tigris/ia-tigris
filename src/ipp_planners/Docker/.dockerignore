@@ -1,6 +1,5 @@
 # Must copy this to the root directory before building
 
-libtorch/
 .vscode/
 */.vscode
 build/

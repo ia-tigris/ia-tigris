@@ -1,5 +1,5 @@
 # image target for entire workspace
-# run this from the worspace root directory so src and libtorch are loaded correctly
+# run this from the workspace root directory so src is loaded correctly
 FROM ros:melodic-ros-base as ipp_planner
 ARG WS=/workspace
 ARG ROOT=.
@@ -25,7 +25,6 @@ RUN echo "Installing planner_ws dependencies... \n" &&\
     export PYTHONPATH="${PYTHONPATH}:/{$WS}/src/ipp_simple_sim"
 
 COPY src/ $WS/src/
-# COPY libtorch/ $WS/libtorch/
 RUN catkin config --extend /opt/ros/$ROS_DISTRO 
 
 RUN catkin build

@@ -50,31 +50,6 @@ include_directories(${OMPL_INCLUDE_DIRS})
 find_package(OpenCV REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-if(USE_MCTS)
-  add_definitions(-DUSE_MCTS)
-  # libtorch
-  # set libtorch to be under onr_ws/libtorch
-  set(TORCH_PATH "${CMAKE_SOURCE_DIR}/../../libtorch")
-  message(WARNING "Appending this path to find libtorch, make sure to libtorch exists here: ${TORCH_PATH}")
-  list(APPEND CMAKE_PREFIX_PATH ${TORCH_PATH})
-  message(WARNING "CMAKE_PREFIX_PATH is now ${CMAKE_PREFIX_PATH}")
-
-  # auto download libtorch if doesn't exist
-  if(NOT EXISTS "${CMAKE_SOURCE_DIR}/../../libtorch")
-    message(WARNING "libtorch not found, downloading...")
-    execute_process(
-      COMMAND bash -c
-      "wget 'https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.12.1%2Bcpu.zip' \
-        && unzip libtorch-cxx11-abi-shared-with-deps-1.12.1+cpu.zip -d ${CMAKE_SOURCE_DIR}/../../"
-      OUTPUT_VARIABLE outVar
-    )
-  endif()
-
-  find_package(Torch REQUIRED)
-  include_directories(${TORCH_INCLUDE_DIRS})
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
-endif()
-
 # CGAL
 find_package(CGAL REQUIRED)
 
@@ -234,7 +209,6 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${OMPL_LIBRARIES}
   CGAL::CGAL
-  "${TORCH_LIBRARIES}"
   stdc++fs
 )
 
@@ -244,7 +218,6 @@ target_link_libraries(${PROJECT_NAME}_search_map
   ${OMPL_LIBRARIES}
   ${OpenCV_LIBS}
   CGAL::CGAL
-  "${TORCH_LIBRARIES}"
   stdc++fs
 )
 
@@ -292,20 +265,11 @@ install(TARGETS ${PROJECT_NAME}_search_map
 )
 
 # # Mark cpp header files for installation
-if(USE_MCTS)
-  install(DIRECTORY include/${PROJECT_NAME}/
-    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-    FILES_MATCHING PATTERN "*.h"
-    PATTERN ".svn" EXCLUDE
-  )
-else()
-  install(DIRECTORY include/${PROJECT_NAME}/
-    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-    FILES_MATCHING PATTERN "*.h"
-    PATTERN "MCTS.h" EXCLUDE
-    PATTERN ".svn" EXCLUDE
-  )
-endif()
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+  PATTERN ".svn" EXCLUDE
+)
 
 # # Mark other files for installation (e.g. launch and bag files, etc.)
 install(DIRECTORY launch

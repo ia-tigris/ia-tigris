@@ -2,7 +2,6 @@
 *.pt
 *.ipynb_checkpoints
 
-libtorch/
 **/data/*
 **/train_data/*
 lightning_logs/

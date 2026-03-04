@@ -77,9 +77,7 @@ RViz is enabled by default in `main.launch`.
 roslaunch ipp_planners main.launch \
   config:=onr \
   planner:=tigris \
-  sim:=simple \
-  search:=true \
-  track:=false
+  sim:=simple
 ```
 
 In a second terminal:
@@ -100,8 +98,6 @@ roslaunch ipp_planners main.launch \
   config:=onr \
   planner:=tigris \
   sim:=simple \
-  search:=true \
-  track:=false \
   rviz:=false \
   foxglove:=true
 ```
@@ -139,9 +135,7 @@ Inside container:
 roslaunch ipp_planners main.launch \
   config:=onr \
   planner:=tigris \
-  sim:=simple \
-  search:=true \
-  track:=false
+  sim:=simple
 ```
 
 Open:
@@ -155,8 +149,6 @@ docker compose exec ros bash
 roslaunch metrics sim_mc_runs.launch \
   config:=research \
   sim:=simple \
-  search:=true \
-  track:=false \
   include_cpu_mem_monitor:=true
 ```
 

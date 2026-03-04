@@ -104,80 +104,6 @@ visualization_msgs::MarkerArray visualize_node_info_gain_text(std::vector<NodeT 
     return text_marker_array;
 }
 
-
-
-#ifdef USE_MCTS
-visualization_msgs::MarkerArray visualize_node_avg_value_text(std::vector<MCTSNode *> tree_nodes, std::string local_frame)
-{
-    auto value_fn = [](MCTSNode *node)
-    {
-        double total_budget = node->cost.value() + node->budget_remaining;
-        return node->get_value() / (total_budget / 50);
-    };
-    double min_information = std::numeric_limits<double>::max();
-    double max_information = std::numeric_limits<double>::lowest();
-    for (auto node : tree_nodes)
-    {
-        if (node->name == "R") // root gets too negative, ignore it for coloring
-        {
-            continue;
-        }
-        if (value_fn(node) < min_information)
-        {
-            min_information = value_fn(node);
-        }
-        if (value_fn(node) > max_information)
-        {
-            max_information = value_fn(node);
-        }
-    }
-    if (min_information == max_information)
-    {
-        max_information = min_information + 1;
-    }
-
-    visualization_msgs::MarkerArray text_marker_array;
-    // apply color based on information
-    int text_id = 0;
-    for (auto node : tree_nodes)
-    {
-        auto *s_ = node->state->as<XYZPsiStateSpace::StateType>();
-        visualization_msgs::Marker text_marker;
-        text_marker.header.frame_id = local_frame;
-        text_marker.header.stamp = ros::Time();
-        text_marker.ns = "avg_value";
-        text_marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
-        text_marker.action = visualization_msgs::Marker::ADD;
-        text_marker.id = text_id++;
-        text_marker.scale.z = 5 * visualization_scale;
-
-        geometry_msgs::Point new_point;
-
-        new_point.x = text_marker.pose.position.x = s_->getX();
-        new_point.y = text_marker.pose.position.y = s_->getY();
-        new_point.z = text_marker.pose.position.z = s_->getZ();
-
-        text_marker.pose.position.z += 10;
-
-        std_msgs::ColorRGBA new_color;
-        double normalized_information = (value_fn(node) - min_information) / (max_information - min_information);
-        // ROS_DEBUG_STREAM("normalized_information: " << normalized_information);
-        new_color.g = normalized_information;
-        // new_color.r = 0.5;
-        new_color.b = 1 - normalized_information;
-        new_color.a = 0.9 * std::pow(normalized_information, 2) + 0.1;
-        // text_marker.scale.z = 30 * normalized_information + 10.0; // at least size 10
-        text_marker.color = new_color;
-        //
-        std::stringstream stream;
-        stream << /*node->name << ":" << std::fixed << std::setprecision(10) <<*/ value_fn(node);
-        text_marker.text = stream.str();
-        text_marker_array.markers.push_back(text_marker);
-    }
-    return text_marker_array;
-}
-#endif
-
 /**
  * @brief
  *
@@ -499,23 +425,9 @@ visualization_msgs::Marker visualize_tree_dubins(const std::vector<NodeT *> &nod
                                                  std::string local_frame)
 {
 
-    // TODO: hacky function to use value in case of MCTS, information in case of TIGRIS. need to rethink this and cleanup
     auto value_fn = [](NodeT *node)
     {
-#ifdef USE_MCTS
-        MCTSNode *mcts_node = dynamic_cast<MCTSNode *>(node);
-        if (mcts_node)
-        {
-            double total_budget = mcts_node->cost.value() + mcts_node->budget_remaining;
-            return mcts_node->get_value() / (total_budget / 50);
-        }
-        else
-        {
-            return node->information;
-        }
-#else
         return node->information;
-#endif
     };
     double min_information = std::numeric_limits<double>::max();
     double max_information = std::numeric_limits<double>::lowest();
