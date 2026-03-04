@@ -3,6 +3,8 @@ set -e
 
 # Always source ROS in container shells.
 source /opt/ros/noetic/setup.bash
+# Disable ROS1 EOL warnings
+export DISABLE_ROS1_EOL_WARNINGS=1
 # If workspace overlay exists, source it too.
 if [ -f /workspace/devel/setup.bash ]; then
   source /workspace/devel/setup.bash

@@ -6,6 +6,7 @@ services:
     container_name: ros
     environment:
       - ENABLE_HEADLESS_DISPLAY=${ENABLE_HEADLESS_DISPLAY:-0}
+      - DISABLE_ROS1_EOL_WARNINGS=1
     volumes:
       - ../../:/workspace
     networks:
