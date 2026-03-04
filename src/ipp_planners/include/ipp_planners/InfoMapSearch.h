@@ -7,7 +7,6 @@
 #include "ipp_planners/InfoMap.h"
 #include "ipp_planners/TreeNode.h"
 #include "ipp_planners/SearchMap.h"
-#include "ipp_belief/belief_manager.h"
 #include <geometry_msgs/Polygon.h>
 
 #include <ipp_planners/SearchMapSetup.h>

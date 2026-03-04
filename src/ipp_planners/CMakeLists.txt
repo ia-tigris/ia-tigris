@@ -28,7 +28,6 @@ find_package(catkin REQUIRED COMPONENTS
   planner_map_interfaces
   roscpp
   std_msgs
-  ipp_belief
   trochoids
 )
 message(STATUS "CMAKE_BUILD_TYPE IS ${CMAKE_BUILD_TYPE}")
@@ -50,10 +49,6 @@ include_directories(${OMPL_INCLUDE_DIRS})
 # OpenCV
 find_package(OpenCV REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-
-# our common tracking library
-find_package(ipp_belief REQUIRED)
-include_directories(${ipp_belief_INCLUDE_DIRS})
 
 if(USE_MCTS)
   add_definitions(-DUSE_MCTS)
@@ -332,8 +327,7 @@ install(DIRECTORY config
 )
 
 install(FILES
-  # rviz/tigris_search_track.rviz
-  config/rviz_extra/tigris_search_track.rviz
+  config/rviz_extra/tigris_search.rviz
 
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/rviz
 )

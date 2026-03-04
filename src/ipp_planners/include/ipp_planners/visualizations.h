@@ -15,18 +15,10 @@
 #include <planner_map_interfaces/PlanRequest.h>
 #include <planner_map_interfaces/Waypoint.h>
 
-#include "ipp_belief/observation.h"
-#include "ipp_belief/state.h"
 #include "ipp_planners/Planner.h"
 #include "ipp_planners/Tigris.h"
-#ifdef USE_MCTS
-#include "ipp_planners/MCTS.h"
-#endif
 #include "ipp_planners/GreedySearchPlanner.h"
-#include "ipp_planners/GreedyTrackPlanner.h"
 #include "ipp_planners/RandomSearchPlanner.h"
-#include "ipp_planners/RandomTrackPlanner.h"
-#include "ipp_planners/Tracking.h"
 #include "ipp_planners/CoveragePlanner.h"
 #include "ipp_planners/PrimTree.h"
 #include "ipp_planners/PrimTreeBnB.h"
@@ -493,61 +485,6 @@ visualization_msgs::Marker visualize_map(const SearchMap &map_repr, bool vis_pat
     return m;
 }
 
-visualization_msgs::Marker visualize_tree_line(const std::vector<TopoNode *> &nodes,
-                                               std::string local_frame)
-{
-    ROS_INFO_STREAM("publishing tree");
-    // ROS_INFO("Displaying Tree with Dubins paths");
-    visualization_msgs::Marker m;
-    m.header.frame_id = local_frame;
-    m.header.stamp = ros::Time();
-    m.ns = "nodes";
-    // m.frame_locked = true;
-    m.id = 0;
-    m.type = visualization_msgs::Marker::LINE_LIST;
-    m.action = visualization_msgs::Marker::ADD;
-    // m.lifetime = ros::Duration(1);
-    m.pose.position.x = 0.0;
-    m.pose.position.y = 0.0;
-    m.pose.position.z = 0.0;
-    m.pose.orientation.x = 0.0;
-    m.pose.orientation.y = 0.0;
-    m.pose.orientation.z = 0.0;
-    m.pose.orientation.w = 1.0;
-    m.scale.x = .1 * visualization_scale;
-    m.color.a = 1.0;
-    m.color.r = 1.0;
-    m.color.g = 0.0;
-    m.color.b = 0.0; // TODO change color gradient
-    geometry_msgs::Pose new_pose;
-
-    TopoNode *node_ptr = nodes[nodes.size() - 1];
-    auto *node_pt = node_ptr->state->template as<XYZPsiStateSpace::StateType>();
-
-    for (auto *node : nodes)
-    {
-        if (node->parent == nullptr)
-        {
-            continue; // skip the root, the root has no parent edge to draw
-        }
-
-        std::vector<double> node_state = node->get_node_start_pose();
-        std::vector<double> parent_state = node->parent_topo->get_node_start_pose();
-
-        geometry_msgs::Point child_point;
-        child_point.x = node_state[0];
-        child_point.y = node_state[1];
-        child_point.z = node_state[2];
-        geometry_msgs::Point parent_point;
-        parent_point.x = parent_state[0];
-        parent_point.y = parent_state[1];
-        parent_point.z = parent_state[2];
-
-        m.points.push_back(child_point);
-        m.points.push_back(parent_point);
-    }
-    return m;
-}
 /**
  * @brief Visualize the tree while considering the dubins path
  *
@@ -992,8 +929,9 @@ visualization_msgs::Marker visualize_final_path_observations(TreeNode *node_ptr,
                                                              double observation_discretization_distance,
                                                              std::string local_frame)
 {
-    auto [observations, time_deltas] = ipp::discretize_observations(*node_ptr, desired_speed, sensor_params, std::numeric_limits<int>::max(), observation_discretization_distance);
     // ROS_INFO("Visualizing final path frustrum");
+    (void)desired_speed;
+    (void)observation_discretization_distance;
     visualization_msgs::Marker m;
     m.header.frame_id = local_frame;
     m.header.stamp = ros::Time();
@@ -1014,12 +952,13 @@ visualization_msgs::Marker visualize_final_path_observations(TreeNode *node_ptr,
     m.color.r = 1.0;
     m.color.g = 0.0;
     m.color.b = 1.0;
-    // ROS_INFO("Observations size: %d", observations.size());
-    for (auto &obs : observations)
+
+    while (node_ptr != nullptr)
     {
-        auto d = obs.get_vantage_point();
-        std::vector<std::vector<double>> q_rotated = rotated_camera_fov(sensor_params, /*roll*/ 0.0, /*pitch*/ sensor_params.pitch, /*yaw*/ d.get_heading());
-        std::vector<double> node_pos = {d.get_x(), d.get_y(), d.get_z()};
+        auto *node_pt = node_ptr->state->as<XYZPsiStateSpace::StateType>();
+
+        std::vector<std::vector<double>> q_rotated = rotated_camera_fov(sensor_params, /*roll*/ 0.0, /*pitch*/ sensor_params.pitch, /*yaw*/ node_pt->getPsi());
+        std::vector<double> node_pos = {node_pt->getX(), node_pt->getY(), node_pt->getZ()};
         std::vector<std::vector<double>> projected_camera_bounds = project_camera_bounds_to_plane(node_pos, q_rotated, sensor_params.highest_max_range);
 
         for (int i = 0; i < projected_camera_bounds.size(); i++)
@@ -1035,9 +974,9 @@ visualization_msgs::Marker visualize_final_path_observations(TreeNode *node_ptr,
             newer_point.z = projected_camera_bounds[(int)((i + 1) % projected_camera_bounds.size())][2];
 
             geometry_msgs::Point cam_point;
-            cam_point.x = d.get_x();
-            cam_point.y = d.get_y();
-            cam_point.z = d.get_z();
+            cam_point.x = node_pt->getX();
+            cam_point.y = node_pt->getY();
+            cam_point.z = node_pt->getZ();
 
             geometry_msgs::Point new_point_copy;
             new_point_copy.x = projected_camera_bounds[i][0];
@@ -1049,6 +988,8 @@ visualization_msgs::Marker visualize_final_path_observations(TreeNode *node_ptr,
             m.points.push_back(new_point_copy);
             m.points.push_back(cam_point);
         }
+
+        node_ptr = node_ptr->parent;
     }
     return m;
 }
@@ -1411,29 +1352,6 @@ namespace ipp
         }
     };
 
-    class GreedyTrackVisualizer : public PlannerVisualizer
-    {
-
-    public:
-        GreedyTrackVisualizer(ros::NodeHandle &nh, ros::NodeHandle &pnh) : PlannerVisualizer(nh, pnh)
-        {
-        }
-
-        void vis_final(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from, planner_map_interfaces::Plan dense_path, std::vector<int> waypoint_map) override
-        {
-            PlannerVisualizer::vis_final(ipp_planner, info_map, pose_to_plan_from, dense_path, waypoint_map);
-
-            const GreedyTrackPlanner &greedy_track = dynamic_cast<GreedyTrackPlanner &>(ipp_planner);
-        }
-
-        void vis_while_planning(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from) override
-        {
-            PlannerVisualizer::vis_while_planning(ipp_planner, info_map, pose_to_plan_from);
-
-            const GreedyTrackPlanner &greedy_track = dynamic_cast<GreedyTrackPlanner &>(ipp_planner);
-        }
-    };
-
     class GreedySearchVisualizer : public PlannerVisualizer
     {
         ros::Publisher sampled_points;
@@ -1477,29 +1395,6 @@ namespace ipp
             sampled_points.publish(visualize_points(greedy_points, local_frame, {1.0, 1.0, 0.0, 0.0}));
             view_points.publish(visualize_points(greedy_view_points, local_frame, {1.0, 0.0, 1.0, 0.0}));
             copy_map_viz.publish(search_map_marker);
-        }
-    };
-
-    class RandomVisualizer : public PlannerVisualizer
-    {
-
-    public:
-        RandomVisualizer(ros::NodeHandle &nh, ros::NodeHandle &pnh) : PlannerVisualizer(nh, pnh)
-        {
-        }
-
-        void vis_final(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from, planner_map_interfaces::Plan dense_path, std::vector<int> waypoint_map) override
-        {
-            PlannerVisualizer::vis_final(ipp_planner, info_map, pose_to_plan_from, dense_path, waypoint_map);
-
-            const RandomTrackPlanner &random = dynamic_cast<RandomTrackPlanner &>(ipp_planner);
-        }
-
-        void vis_while_planning(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from) override
-        {
-            PlannerVisualizer::vis_while_planning(ipp_planner, info_map, pose_to_plan_from);
-
-            const RandomTrackPlanner &random = dynamic_cast<RandomTrackPlanner &>(ipp_planner);
         }
     };
 
@@ -1702,34 +1597,6 @@ namespace ipp
         }
     };
 
-    class TrackingVisualizer : public PlannerVisualizer
-    {
-        ros::Publisher exploration_tree;
-        ros::Publisher coverage_boundary_vis_pub;
-
-    public:
-        TrackingVisualizer(ros::NodeHandle &nh, ros::NodeHandle &pnh) : PlannerVisualizer(nh, pnh)
-        {
-            exploration_tree = nh.advertise<visualization_msgs::Marker>("global_path/nodes", 10);
-        }
-
-        void vis_final(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from, planner_map_interfaces::Plan dense_path, std::vector<int> waypoint_map) override
-        {
-            PlannerVisualizer::vis_final(ipp_planner, info_map, pose_to_plan_from, dense_path, waypoint_map);
-
-            const TrackPlan &tracking = dynamic_cast<TrackPlan &>(ipp_planner);
-            exploration_tree.publish(visualize_tree_line(tracking.get_all_nodes(), local_frame));
-        }
-
-        void vis_while_planning(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from) override
-        {
-            PlannerVisualizer::vis_while_planning(ipp_planner, info_map, pose_to_plan_from);
-
-            const TrackPlan &tracking = dynamic_cast<TrackPlan &>(ipp_planner);
-            exploration_tree.publish(visualize_tree_line(tracking.get_all_nodes(), local_frame));
-        }
-    };
-
     class CoverageVisualizer : public PlannerVisualizer
     {
     public:
@@ -1792,61 +1659,5 @@ namespace ipp
             info_gain_text.publish(visualize_node_info_gain_text<MCTSNode>(the_nodes, local_frame));
         }
     };
-
-#ifdef USE_MCTS
-    class MCTSVisualizer : public PlannerVisualizer
-    {
-        ros::Publisher final_path_observations;
-        ros::Publisher exploration_arrows;
-        ros::Publisher exploration_tree;
-        ros::Publisher info_gain_text; // numeric text of the information gain
-        ros::Publisher avg_value_text; // numeric text of the average value
-
-        ros::Publisher rollout_frustums;
-
-    public:
-        MCTSVisualizer(ros::NodeHandle &nh, ros::NodeHandle &pnh) : PlannerVisualizer(nh)
-        {
-            exploration_arrows = nh.advertise<visualization_msgs::MarkerArray>("global_path/arrows", 10);
-            exploration_tree = nh.advertise<visualization_msgs::Marker>("global_path/tree", 10);
-            final_path_observations = nh.advertise<visualization_msgs::Marker>("global_path/final_path_observations", 10);
-            info_gain_text = nh.advertise<visualization_msgs::MarkerArray>("global_path/info_gain_text", 10);
-            avg_value_text = nh.advertise<visualization_msgs::MarkerArray>("global_path/mcts_avg_value_text", 10);
-        }
-        void vis_final(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from, planner_map_interfaces::Plan dense_path, std::vector<int> waypoint_map) override
-        {
-            PlannerVisualizer::vis_final(ipp_planner, info_map, pose_to_plan_from, dense_path);
-            MCTS &mcts = dynamic_cast<MCTS &>(ipp_planner);
-
-            // auto the_nodes = ros_utils::get_param<bool>(this->nh, "vis_while_planning") ?  mcts.get_expanded_nodes() : mcts.get_all_nodes();
-            // auto the_nodes = mcts.get_expanded_nodes();
-            auto the_nodes = mcts.get_all_nodes(1);
-
-            // below is probably super expensive, only uncomment for debugging
-            // final_path_observations.publish(visualize_final_path_observations(mcts.get_leaf_node_of_best_path(), ipp_planner.sensor_params, local_frame));
-            // exploration_arrows.publish(visualize_nodes_arrow<MCTSNode>(the_nodes, local_frame));
-            exploration_tree.publish(visualize_tree_dubins<MCTSNode>(the_nodes, mcts.get_space_information_ptr(), local_frame));
-            // info_gain_text.publish(visualize_node_info_gain_text<MCTSNode>(the_nodes, local_frame));
-            // avg_value_text.publish(visualize_node_avg_value_text(the_nodes, local_frame));
-        }
-
-        void vis_while_planning(Planner &ipp_planner, InfoMap &info_map, std::vector<double> pose_to_plan_from) override
-        {
-            PlannerVisualizer::vis_while_planning(ipp_planner, info_map, pose_to_plan_from);
-            MCTS &mcts = dynamic_cast<MCTS &>(ipp_planner);
-
-            // auto the_nodes = ros_utils::get_param<bool>(this->nh, "vis_while_planning") ?  mcts.get_expanded_nodes() : mcts.get_all_nodes();
-            // auto the_nodes = mcts.get_expanded_nodes();
-            auto the_nodes = mcts.get_all_nodes(1);
-
-            // below is probably super expensive, only uncomment for debugging
-            final_path_observations.publish(visualize_final_path_observations(mcts.get_leaf_node_of_best_path(), ipp_planner.desired_speed, ipp_planner.sensor_params, info_map.observation_discretization_distance, local_frame));
-            // exploration_arrows.publish(visualize_nodes_arrow<MCTSNode>(the_nodes, local_frame));
-            exploration_tree.publish(visualize_tree_dubins<MCTSNode>(the_nodes, mcts.get_space_information_ptr(), local_frame));
-            info_gain_text.publish(visualize_node_info_gain_text<MCTSNode>(the_nodes, local_frame));
-            avg_value_text.publish(visualize_node_avg_value_text(the_nodes, local_frame));
-        }
-    };
-#endif
 
 }

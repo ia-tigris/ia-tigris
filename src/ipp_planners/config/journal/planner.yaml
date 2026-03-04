@@ -33,8 +33,6 @@ use_plan_horizon: true #if we want to use a horizon for replanning instead of fu
 plan_horizon_length: 1000 # length of horizon we want to plan for. Only used if use_horizon set to true
 
 # reward parameters
-prob_sample_track: 0.5  # probability to sample from tracking rather than searching (searching is 1.0-prob_sample_track)
-track_reward_weight: 1.0
 search_reward_weight: 1.0
 
 information_metric: "variance_accumulated"  # choose "particles", "variance_delta", or "variance_accumulated"

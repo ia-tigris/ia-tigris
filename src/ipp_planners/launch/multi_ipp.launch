@@ -3,15 +3,11 @@
     <arg name="rviz" default="true"/>
     <arg name="config" default="research"/>
     <arg name="rviz_file" default="$(arg config).rviz"/>
-    <arg name="search" default="true"/>
-    <arg name="track" default="false"/>
 
     <include file="$(find ipp_planners)/launch/main.launch">
         <arg name="robot_name" value="uav1"/>
         <arg name="rviz" value="false"/>
         <arg name="sim" value="false"/>
-        <arg name="search" value="$(arg search)"/>
-        <arg name="track" value="$(arg track)" />
         <arg name="config" default="$(arg config)"/>
     </include>
 
@@ -19,8 +15,6 @@
         <arg name="robot_name" value="uav2"/>
         <arg name="rviz" value="false"/>
         <arg name="sim" value="false"/>
-        <arg name="search" value="$(arg search)"/>
-        <arg name="track" value="$(arg track)" />
         <arg name="config" default="$(arg config)"/>
     </include>
 

@@ -24,12 +24,10 @@
 // planners
 #include "ipp_planners/Planner.h"
 #include "ipp_planners/Tigris.h"
-#include "ipp_planners/MCTS.h"
 
 // belief
 #include "ipp_planners/InfoMap.h"
-#include "ipp_planners/InfoMapTrack.h"
-#include "ipp_planners/InfoMapSearchTrack.h"
+#include "ipp_planners/InfoMapSearch.h"
 
 #include "ipp_planners/SearchMap.h"
 #include "ipp_planners/SearchMapSetup.h"
@@ -47,8 +45,6 @@ namespace ipp
 {
     class PlannerNodeMC : public PlannerNode
     {
-        InfoMapTrack* info_map_track;
-
         ros::Publisher plan_request_pub;
         ros::Publisher kill_all_nodes_pub;
 
@@ -156,9 +152,7 @@ namespace ipp
 
         void target_detection_callback(const ipp_simple_sim::Detections &msg);
 
-        void propagate_info_map(double time_to_propagate, 
-                                std::vector<tracking::Observation> &observations,
-                                std::vector<double> time_deltas);
+        void propagate_info_map(double time_to_propagate);
 
         planner_map_interfaces::PlanRequest samplePlanRequest(std::vector<planner_map_interfaces::TargetPrior> target_priors);
 

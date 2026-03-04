@@ -60,7 +60,6 @@
 
   <depend>cmake_modules</depend>
   <depend>eigen</depend>
-  <depend>ipp_belief</depend>
   <depend>math_utils</depend>
   <depend>trochoids</depend>
 

@@ -64,14 +64,7 @@ void PlannerNodeMC::run_mc()
                 // sample new plan (if on first planner) and publish it
                 if (planner_type_index == 0)
                 {
-                    if (is_search_task)
-                    {
-                        plan_request_msg = samplePlanRequest(generateSearchPriors());
-                    }
-                    else
-                    {
-                        plan_request_msg = samplePlanRequest(generateTargetPriors());
-                    }
+                    plan_request_msg = samplePlanRequest(generateSearchPriors());
                 }
                 plan_request_pub.publish(plan_request_msg);
                 ROS_INFO("[PlannerNodeMC] Published plan request. Waiting for 4 seconds for simple sim to receive");
@@ -464,11 +457,6 @@ void PlannerNodeMC::plan_request_callback(const planner_map_interfaces::PlanRequ
         std::string simulated_perception_dir = ros::package::getPath("simulated_perception") + "/config"; //one file in dir
         fs::create_directories(ipp_simple_sim_save_dir);
         fs::copy(simulated_perception_dir, simulated_perception_save_dir);
-        // copy configs from ipp_beliefs
-        std::string ipp_belief_save_dir = config_save_dir + "/ipp_belief";
-        std::string ipp_belief_dir = ros::package::getPath("ipp_belief") + "/config/" + config;
-        fs::create_directories(ipp_belief_save_dir);
-        fs::copy(ipp_belief_dir, ipp_belief_save_dir);
     }
 }
 
@@ -581,21 +569,9 @@ void PlannerNodeMC::waypoint_reached_callback(const std_msgs::UInt32 &msg)
     this->waypoint_num = msg.data;
 }
 
-void PlannerNodeMC::propagate_info_map(double time_to_propagate, 
-                                std::vector<tracking::Observation> &observations,
-                                std::vector<double> time_deltas)
+void PlannerNodeMC::propagate_info_map(double time_to_propagate)
 {
-    // apply the observations iteratively
-    auto info_map_cast = dynamic_cast<InfoMapTrack &>(*info_map);
-    auto belief = info_map_cast.particle_belief_manager;
-    for (int i = 0; i < observations.size(); i++)
-    {
-        auto &time_delta = time_deltas.at(i);
-        auto &observation = observations.at(i);
-
-        belief.propagate(time_delta);
-        belief.apply_observation(observation);
-    }
+    (void)time_to_propagate;
 }
 
 planner_map_interfaces::PlanRequest PlannerNodeMC::samplePlanRequest(std::vector<planner_map_interfaces::TargetPrior> target_priors)
@@ -979,19 +955,5 @@ std::vector<planner_map_interfaces::TargetPrior> PlannerNodeMC::generateSearchPr
 
 bool PlannerNodeMC::all_targets_outside_of_bounds()
 {
-    // auto info_map_track = dynamic_cast<InfoMapTrack &>(info_map.get());
-    double map_bounds = ros_utils::get_param<double>(pnh, "map_bounds");
-    auto particle_belief_manager = info_map_track->get_particle_belief_manager();
-    std::map<unsigned int, tracking::ParticleFilter> target_map = particle_belief_manager.get_id_to_trackers();
-    for (auto& it: target_map) 
-    {
-        auto tracker_state = it.second.get_mean_particle();
-        if (tracker_state.get_x() >= 0 && tracker_state.get_x() <= map_bounds &&
-            tracker_state.get_y() >= 0 && tracker_state.get_y() <= map_bounds)
-        {
-            // ROS_DEBUG_STREAM("Target: " << it.first << " x: " << tracker_state.get_x() << " y: " << tracker_state.get_y() << " out of bounds");
-            return false;
-        }
-    }      
-    return true;  
-}
+    return false;
+} 

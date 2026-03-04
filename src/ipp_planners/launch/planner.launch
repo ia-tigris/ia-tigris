@@ -6,10 +6,6 @@
     <!-- Agent state namespace -->
     <arg name="robot_name" default="simulator"/>
 
-    <!-- Objective:  -->
-    <arg name="search" default="true"/>
-    <arg name="track" default="false"/>
-
     <!-- Planner -->
     <arg name="planner" default="tigris"/>
 
@@ -37,9 +33,6 @@
 
         <!-- additional planner-specific configs -->
         <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/$(arg planner).yaml" />
-
-        <param name="search" type="bool" value="$(arg search)" />
-        <param name="track" type="bool" value="$(arg track)" />
 
         <param name="gen_train_data" type="bool" value="$(arg gen_train_data)" />
         <param name="vis_while_planning" type="bool" value="$(arg vis_while_planning)" />

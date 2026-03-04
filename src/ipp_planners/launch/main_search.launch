@@ -8,10 +8,6 @@
     <!-- Robot namespace. We use "robot_name" to be compatible with AirLab Core Stack -->
     <arg name="robot_name" default="uav1_search"/>
 
-    <!-- Objective:  -->
-    <arg name="search" default="true"/>
-    <arg name="track" default="false"/>
-
     <!-- =========== END GENERAL LAUNCH =============  -->
 
     <!-- =========== START SIMULATOR LAUNCH ===========  -->
@@ -42,9 +38,7 @@
 
         <!-- ~~~ INCLUDES ~~~ -->
         <!-- search belief -->
-        <include file="$(find ipp_planners)/launch/search_belief.launch" if="$(arg search)" pass_all_args="true" />
-        <!-- track belief -->
-        <include file="$(find ipp_belief)/launch/ipp_belief.launch" if="$(arg track)" pass_all_args="true" />
+        <include file="$(find ipp_planners)/launch/search_belief.launch" pass_all_args="true" />
 
         <!-- =========== END BELIEF LAUNCH =============  -->
 

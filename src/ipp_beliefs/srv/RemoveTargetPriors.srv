@@ -1,4 +1,0 @@
-uint16[] ids_to_remove
----
-uint16[] removed_ids
-uint16[] not_found_ids

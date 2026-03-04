@@ -194,8 +194,6 @@ echo "sourced workspace"
 # cpu_mem_csv_file:=${FOLDER_NAME}/${SLURM_ARRAY_TASK_ID}/cpu_mem_metrics.csv \
 # log_plan_metrics:=true \
 # plan_metrics_csv_directory:=${FOLDER_NAME}/${SLURM_ARRAY_TASK_ID}/ \
-# search:=true \
-# track:=false \
 # mc_config:=mc_testing_search1_random_v33.yaml \
 # sim:=simple
 

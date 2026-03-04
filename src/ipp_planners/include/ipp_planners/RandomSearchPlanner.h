@@ -12,9 +12,6 @@ namespace ipp
     class RandomSearchPlanner : public Planner
     {
     protected:
-        // search and track flags
-        bool is_search_task;
-        bool is_track_task;
         // Random number generator
         std::random_device rd;
         std::mt19937 x_gen;
@@ -43,18 +40,11 @@ namespace ipp
 
         RandomSearchPlanner(ros::NodeHandle &nh, ros::NodeHandle &pnh)
             : Planner(nh, pnh),
-            is_search_task(ros_utils::get_param<bool>(pnh, "search")),
-            is_track_task(ros_utils::get_param<bool>(pnh, "track")),
             x_gen(std::mt19937(rd())),
             y_gen(std::mt19937(rd())),
             psi_gen(std::mt19937(rd())),
             distribution_psi(std::uniform_real_distribution<>(-PI, PI - 0.0001)) // OMPL wants [-pi, pi), not [0, 2pi]
         {
-            // use search default if search and track true
-            if (is_search_task && is_track_task)
-            {
-                ROS_WARN_STREAM("random planning is only implemented for search OR track alone. Using " << planner_name << " instead");
-            }
         }
 
         /**

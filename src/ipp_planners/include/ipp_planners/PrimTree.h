@@ -43,15 +43,7 @@ namespace ipp
             primtree_extend_dist(ros_utils::get_param<double>(pnh, "primtree_extend_dist")),
             primtree_branches_each_side(ros_utils::get_param<double>(pnh, "primtree_branches_each_side"))
         {
-            double is_track_task = ros_utils::get_param<bool>(pnh, "track");
-            double is_search_task = ros_utils::get_param<bool>(pnh, "search");
             planner_name = ros_utils::get_param<std::string>(pnh, "planner");
-
-            if (!is_search_task || is_track_task)
-            {
-                ROS_ERROR_STREAM(planner_name << " is developed only for search task. Please launch with search:=true track:=false");
-                throw std::runtime_error("PrimTree planner only");
-            }
 
             this->nn_data_structure.setDistanceFunction([this](TreeNode *a, TreeNode *b)
                                                     {  this->XYZPsi_Space->enforceBounds(a->state);

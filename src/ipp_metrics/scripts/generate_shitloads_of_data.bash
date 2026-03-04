@@ -22,7 +22,6 @@ cp "$ros_ws_path"/src/ipp_metrics/config/*.yaml ~/.ros/train_data
 cp  "$ros_ws_path"/src/ipp_planners/config/*mcts.yaml ~/.ros/train_data
 cp  "$ros_ws_path/src/planner_map_interfaces/config/sensor_params.yaml" ~/.ros/train_data
 cp  "$ros_ws_path/src/planner_map_interfaces/config/sensor_model_0.csv" ~/.ros/train_data
-cp  "$ros_ws_path/src/ipp_belief/config/ipp_belief_node.yaml" ~/.ros/train_data
 vcs export --exact > ~/.ros/train_data/onr_ws_exact.repos
 set +x
 

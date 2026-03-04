@@ -1,4 +1,4 @@
-<!-- Launches simulator, belief, and planner as a whole pipeline -->
+<!-- Launches simulator and planner as a whole pipeline -->
 
 <launch>
     <!-- ===== ARGUMENTS ===== -->
@@ -22,10 +22,6 @@
     <!-- planner logging -->
     <arg name="log_plan_metrics" default="true"/>
     <arg name="plan_metrics_csv_directory" default="$(find metrics)/sim_mc_runs/search_scenario_1/" />
-
-    <!-- Objective:  -->
-    <arg name="search" default="true"/>
-    <arg name="track" default="false"/>
 
     <!-- Learning -->
     <arg name="gen_train_data" default="false"/>
@@ -60,19 +56,16 @@
 
     
     <!-- General planner parameters-->
-    <arg name="rviz_file" default="tigris_search_track.rviz" />
+    <arg name="rviz_file" default="tigris_search.rviz" />
     <!-- choose "tigris", "mcts" -->
     <arg name="planner" default="tigris" />
 
 
     <!-- ===== INCLUDES ===== -->
         <!-- launch search -->
-        <include file="$(find ipp_planners)/launch/search_belief.launch" if="$(arg search)" pass_all_args="true">
+        <include file="$(find ipp_planners)/launch/search_belief.launch" pass_all_args="true">
             <arg name="pub_search_map_metrics" value="true"/>
         </include>
-
-        <!-- launch track -->
-        <include file="$(find ipp_belief)/launch/ipp_belief.launch" if="$(arg track)"/>
 
         <group ns="sensor">
             <rosparam subst_value="True" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />
@@ -96,9 +89,6 @@
             <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/primtreebnb.yaml" />
             <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/mcts_search.yaml" />
 
-            <param name="search" type="bool" value="$(arg search)" />
-            <param name="track" type="bool" value="$(arg track)" />
-
             <param name="use_sim" type="string" value="$(arg sim)" />
 
             <param name="gen_train_data" type="bool" value="$(arg gen_train_data)" />
@@ -113,7 +103,9 @@
     </group>
 
     <group if="$(arg record)">
-        <include file="$(find metrics)/launch/metrics.launch" />
+        <include file="$(find metrics)/launch/metrics.launch">
+            <arg name="robot_name" value="$(arg robot_name)"/>
+        </include>
     </group>
 
 

@@ -119,7 +119,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /uav1/ipp_belief/particle_filters_visualizer
+      Marker Topic: /uav1/particle_filters_visualizer
       Name: "Belief: Particle Filters"
       Namespaces:
         {}

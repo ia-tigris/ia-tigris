@@ -181,7 +181,6 @@ roslaunch ipp_planners main.launch \
  config:=onr \
  planner:=tigris \
  sim:=simple \
- search:=true track:=false \
  rviz:=true \
  vis_while_planning:=true
 ```

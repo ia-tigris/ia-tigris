@@ -52,15 +52,12 @@
   <build_depend>ipp_planners</build_depend>
   <build_depend>planner_map_interfaces</build_depend>
   <build_depend>ipp_simple_sim</build_depend>
-  <build_depend>ipp_belief</build_depend>
   <build_export_depend>ipp_planners</build_export_depend>
   <build_export_depend>planner_map_interfaces</build_export_depend>
   <build_export_depend>ipp_simple_sim</build_export_depend>
-  <build_export_depend>ipp_belief</build_export_depend>
   <exec_depend>ipp_planners</exec_depend>
   <exec_depend>planner_map_interfaces</exec_depend>
   <exec_depend>ipp_simple_sim</exec_depend>
-  <exec_depend>ipp_belief</exec_depend>
   <exec_depend>trochoids</exec_depend>
 
 

@@ -16,9 +16,6 @@ namespace ipp
         double range;
         double min_altitude;
         double declination;
-        // search and track flags
-        bool is_search_task;
-        bool is_track_task;
 
     public:
         TreeNode *parent_node;
@@ -35,14 +32,8 @@ namespace ipp
         std::string planner_name = "greedy search";
 
         GreedySearchPlanner(ros::NodeHandle &nh, ros::NodeHandle &pnh)
-            : Planner(nh, pnh),
-            is_search_task(ros_utils::get_param<bool>(pnh, "search")),
-            is_track_task(ros_utils::get_param<bool>(pnh, "track"))
+            : Planner(nh, pnh)
         {
-            if (is_search_task && is_track_task)
-            {
-                ROS_WARN_STREAM("greedy planning is only implemented for search OR track alone. Using " << planner_name << " instead");
-            }
         }
 
         /**

@@ -29,8 +29,6 @@ observation_discretization_distance: 30.0  # distance between pink observation b
 final_path_discretization_distance: 5.0 # Wildfire usually 5.0
 
 # reward parameters
-prob_sample_track: 0.5  # probability to sample from tracking rather than searching (searching is 1.0-prob_sample_track)
-track_reward_weight: 1.0
 search_reward_weight: 1.0
 
 information_metric: "variance_accumulated"  # choose "particles", "variance_delta", or "variance_accumulated"

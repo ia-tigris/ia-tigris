@@ -36,9 +36,6 @@
     /(.*)/markers/targets
     /(.*)/filtered_targets
     /(.*)/observation_with_cov
-    /(.*)/ipp_belief/particle_filters_belief
-    /(.*)/ipp_belief/total_variance
-    /(.*)/ipp_belief/variance_array
     /tf
     "
     if="$(arg record_bag)" />

@@ -23,11 +23,6 @@
 #include "ipp_planners/SearchMap.h"
 #include "ipp_planners/Planner.h"
 
-#include "ipp_belief/belief_manager.h"
-#include "ipp_belief/observation.h"
-#include "ipp_belief/information.h"
-#include "ipp_belief/trackers.h"
-
 namespace ang = ca::math_utils::angular_math;
 
 typedef std::chrono::high_resolution_clock Clock;

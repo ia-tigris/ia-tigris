@@ -27,14 +27,8 @@
 // planners
 #include "ipp_planners/Planner.h"
 #include "ipp_planners/Tigris.h"
-#ifdef USE_MCTS
-#include "ipp_planners/MCTS.h"
-#endif
 #include "ipp_planners/GreedySearchPlanner.h"
-#include "ipp_planners/GreedyTrackPlanner.h"
 #include "ipp_planners/RandomSearchPlanner.h"
-#include "ipp_planners/RandomTrackPlanner.h"
-#include "ipp_planners/Tracking.h"
 #include "ipp_planners/CoveragePlanner.h"
 #include "ipp_planners/PrimTree.h"
 #include "ipp_planners/PrimTreeBnB.h"
@@ -42,8 +36,7 @@
 
 // belief
 #include "ipp_planners/InfoMap.h"
-#include "ipp_planners/InfoMapTrack.h"
-#include "ipp_planners/InfoMapSearchTrack.h"
+#include "ipp_planners/InfoMapSearch.h"
 
 #include "ipp_planners/SearchMap.h"
 #include "ipp_planners/SearchMapSetup.h"
@@ -102,9 +95,6 @@ namespace ipp
 
         // belief
         std::unique_ptr<InfoMap> info_map; // this is the latest info map from the real world. pointer permits polymorphism
-        bool is_search_task;
-        bool is_track_task;
-
         // visualization
         std::unique_ptr<PlannerVisualizer> visualizer;
         bool should_visualize;
@@ -188,27 +178,8 @@ namespace ipp
          */
         void init_info_map()
         {
-            is_search_task = get_param<bool>(pnh, "search");
-            is_track_task = get_param<bool>(pnh, "track");
-            if (is_search_task && is_track_task)
-            { // search and track
-                ROS_INFO("Search and track task");
-                this->info_map = std::make_unique<ipp::InfoMapSearchTrack>(this->nh, this->pnh);
-            }
-            else if (is_search_task)
-            { // just search
-                ROS_INFO("Search task");
-                this->info_map = std::make_unique<ipp::InfoMapSearch>(this->nh, this->pnh);
-            }
-            else if (is_track_task)
-            { // just track
-                ROS_INFO("Track task");
-                this->info_map = std::make_unique<ipp::InfoMapTrack>(this->nh, this->pnh);
-            }
-            else
-            {
-                throw std::runtime_error("No task specified, both search and track are false");
-            }
+            ROS_INFO("Search task");
+            this->info_map = std::make_unique<ipp::InfoMapSearch>(this->nh, this->pnh);
         }
 
         /**
@@ -218,8 +189,6 @@ namespace ipp
         {
             std::string planner_name;
             pnh.param<std::string>("planner", planner_name, "NONE");
-            is_search_task = get_param<bool>(pnh, "search");
-            is_track_task = get_param<bool>(pnh, "track");
             if (planner_name == "tigris")
             {
                 this->ipp_planner = std::make_unique<ipp::Tigris>(this->nh, this->pnh);
@@ -230,31 +199,11 @@ namespace ipp
             }
             else if (planner_name == "greedy")
             {
-                // default to search if search and track are set to true
-                if(is_search_task)
-                {
-                    this->ipp_planner = std::make_unique<ipp::GreedySearchPlanner>(this->nh, this->pnh);
-                }
-                else if (is_track_task)
-                {
-                    this->ipp_planner = std::make_unique<ipp::GreedyTrackPlanner>(this->nh, this->pnh);
-                }
+                this->ipp_planner = std::make_unique<ipp::GreedySearchPlanner>(this->nh, this->pnh);
             }
             else if (planner_name == "random")
             {
-                // default to search if search and track are set to true
-                if (is_search_task)
-                {
-                    this->ipp_planner = std::make_unique<ipp::RandomSearchPlanner>(this->nh, this->pnh);
-                }
-                else if (is_track_task)
-                {
-                    this->ipp_planner = std::make_unique<ipp::RandomTrackPlanner>(this->nh, this->pnh);
-                }
-            }
-            else if (planner_name == "tracking")
-            {
-                this->ipp_planner = std::make_unique<ipp::TrackPlan>(this->nh, this->pnh);
+                this->ipp_planner = std::make_unique<ipp::RandomSearchPlanner>(this->nh, this->pnh);
             }
             else if (planner_name == "primtree")
             {
@@ -268,24 +217,6 @@ namespace ipp
             {
                 this->ipp_planner = std::make_unique<ipp::CoveragePlanner>(this->nh, this->pnh);
             }
-#ifdef USE_MCTS
-            else if (planner_name == "rimcts")
-            {
-                this->ipp_planner = std::make_unique<ipp::RolloutInformedActionMCTS>(this->nh);
-            }
-            else if (planner_name == "limcts")
-            {
-                this->ipp_planner = std::make_unique<ipp::LearnedInformedActionMCTS>(this->nh);
-            }
-            else if (planner_name == "rpmcts")
-            {
-                this->ipp_planner = std::make_unique<ipp::RolloutPrimitiveActionMCTS>(this->nh);
-            }
-            else if (planner_name == "lpmcts")
-            {
-                this->ipp_planner = std::make_unique<ipp::LearnedPrimitiveActionMCTS>(this->nh);
-            }
-#endif
             else
             {
                 throw std::runtime_error("Invalid planner name: " + planner_name);
@@ -295,8 +226,6 @@ namespace ipp
         void init_visualizer()
         {
             std::string planner_name;
-            is_search_task = get_param<bool>(pnh, "search");
-            is_track_task = get_param<bool>(pnh, "track");
             pnh.param<std::string>("planner", planner_name, "NONE");
             if (planner_name == "tigris")
             {
@@ -308,31 +237,11 @@ namespace ipp
             }
             else if (planner_name == "greedy")
             {
-                // default to search if search and track are set to true
-                if (is_search_task)
-                {
-                    this->visualizer = std::make_unique<ipp::GreedySearchVisualizer>(this->nh, this->pnh);
-                }
-                else if (is_track_task)
-                {
-                    this->visualizer = std::make_unique<ipp::GreedyTrackVisualizer>(this->nh, this->pnh);
-                }
+                this->visualizer = std::make_unique<ipp::GreedySearchVisualizer>(this->nh, this->pnh);
             }
             else if (planner_name == "random")
             {
-                // default to search if search and track are set to true
-                if (is_search_task)
-                {
-                    this->visualizer = std::make_unique<ipp::RandomSearchVisualizer>(this->nh, this->pnh);
-                }
-                else if (is_track_task)
-                {
-                    this->visualizer = std::make_unique<ipp::RandomVisualizer>(this->nh, this->pnh);
-                } 
-            }
-            else if(planner_name == "tracking")
-            {
-                this->visualizer = std::make_unique<ipp::TrackingVisualizer>(this->nh, this->pnh);
+                this->visualizer = std::make_unique<ipp::RandomSearchVisualizer>(this->nh, this->pnh);
             }
             else if(planner_name == "primtree")
             {
@@ -346,12 +255,6 @@ namespace ipp
             {
                 this->visualizer = std::make_unique<ipp::CoverageVisualizer>(this->nh, this->pnh);
             }
-#ifdef USE_MCTS
-            else if (planner_name.find("mcts") != std::string::npos)
-            {
-                this->visualizer = std::make_unique<ipp::MCTSVisualizer>(this->nh);
-            }
-#endif
             else
             {
                 ROS_WARN_STREAM("No visualizer for planner " << planner_name);
@@ -787,47 +690,13 @@ namespace ipp
         double calculate_planning_budget_and_prop_info_map()
         {
             double beginning_seg_length = 0;
-            std::vector<tracking::Observation> observations;
-            std::vector<double> time_deltas;
-            std::vector<double> node_pos;
-            double roll, pitch, yaw = 0;
-            std::vector<double> obs_points;
-            double dist_since_last_obs = 0;
 
             // ROS_WARN_STREAM("Size of current plan " << current_plan_msg.plan.size());
             for (int i = 1; i < this->current_plan_msg.plan.size(); ++i)
             {
                 double dist = xyz_distance(this->current_plan_msg.plan[i - 1].position.position, this->current_plan_msg.plan[i].position.position);
                 beginning_seg_length += dist;
-                dist_since_last_obs += dist;
-                // if (i % 3 == 0 || i == this->current_plan_msg.plan.size() - 1)
-                // {
-                //     tf::Quaternion q(
-                //         current_plan_msg.plan[i].position.orientation.x,
-                //         current_plan_msg.plan[i].position.orientation.y,
-                //         current_plan_msg.plan[i].position.orientation.z,
-                //         current_plan_msg.plan[i].position.orientation.w);
-                //     tf::Matrix3x3 m(q);
-                //     m.getRPY(roll, pitch, yaw);
-                //     node_pos = {current_plan_msg.plan[i].position.position.x, current_plan_msg.plan[i].position.position.y, current_plan_msg.plan[i].position.position.z, yaw};
-                //     std::vector<std::vector<double>> q_rotated =
-                //         rotated_camera_fov(ipp_planner->sensor_params, /*roll*/ 0.0, ipp_planner->sensor_params.pitch, yaw);
-                //     Footprint f = project_camera_bounds_to_plane(node_pos, q_rotated);
-                //     obs_points.insert(obs_points.end(), f.p1.begin(), f.p1.end());
-                //     obs_points.insert(obs_points.end(), f.p2.begin(), f.p2.end());
-                //     obs_points.insert(obs_points.end(), f.p3.begin(), f.p3.end());
-                //     obs_points.insert(obs_points.end(), f.p4.begin(), f.p4.end());
-                //     tracking::Polygon obs_region(obs_points);
-                //     tracking::TargetState drone_pose(0, f.drone_pose.at(0),
-                //                                         f.drone_pose.at(1),
-                //                                         f.drone_pose.at(2), 0.0, 0.0);
-                //     tracking::Observation observation(obs_region, drone_pose, ipp_planner->sensor_params);
-                //     observations.push_back(std::move(observation));
-                //     time_deltas.push_back(dist_since_last_obs / ipp_planner->desired_speed);
-                //     dist_since_last_obs = 0;
-                // }
             }
-            // ROS_INFO_STREAM("Number of observations " << observations.size());
 
             ROS_INFO_STREAM("The budget used by the time at start point " << beginning_seg_length);
 
@@ -849,7 +718,7 @@ namespace ipp
                 time_to_propagate = beginning_seg_length / this->latest_plan_req_msg.desired_speed;
             }
 
-            propagate_info_map(time_to_propagate, observations, time_deltas); // TODO
+            propagate_info_map(time_to_propagate); // no-op for search-only mode
 
             ROS_WARN_STREAM("Propagating info map for " << time_to_propagate << " seconds");
             // this->info_map->propagate_to_time(pose_to_plan_from[0]);
@@ -869,10 +738,9 @@ namespace ipp
             return estimated_remaining_budget;
         }
 
-        void propagate_info_map(double time_to_propagate,
-                                std::vector<tracking::Observation> &observations,
-                                std::vector<double> time_deltas)
+        void propagate_info_map(double time_to_propagate)
         {
+            (void)time_to_propagate;
         }
 
         /**

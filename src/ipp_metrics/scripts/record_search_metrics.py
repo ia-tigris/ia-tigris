@@ -29,8 +29,7 @@ class SearchMetricsManager(object):
         self.waypoin_num_sub = rospy.Subscriber(self.name + "/waypoint_num", UInt32, self.waypoint_num_callback)
         self.detections_sub = rospy.Subscriber(self.name + "/sensor_measurement", Detections, self.detections_callback)
 
-        self.launch_args = ['ipp_planners', 'main.launch','rviz:=true', 'search:=true', 
-                       'track:=false', 'sim:=simple', 'robot_name:=' + self.name]
+        self.launch_args = ['ipp_planners', 'main.launch','rviz:=true', 'sim:=simple', 'robot_name:=' + self.name]
     
     def load_search_request_info(self,file):
         with open(sr_path + file, 'rb') as handle:

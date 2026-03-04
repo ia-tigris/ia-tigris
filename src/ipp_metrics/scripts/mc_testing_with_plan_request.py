@@ -14,12 +14,10 @@ class MCManager(object):
         self.name = 'uav1'
         self.desired_rate = 1.0
 
-        # self.launch_args = ['ipp_planners', 'main.launch','rviz:=true', 'search:=true', 
-        #                'track:=false', 'sim:=simple', 'robot_name:=' + self.name]
         self.launch_args = ['metrics', 'sim_mc_runs.launch','rviz:=true', 'include_cpu_mem_monitor:=true', 
                        'cpu_mem_csv_file:=' + self.folder_path +'cpu_mem_metrics.csv', 
                        'log_plan_metrics:=true', 'plan_metrics_csv_directory:='+ self.folder_path,
-                       'search:=true', 'track:=false', 'mc_config:=param_sweep1.yaml', 
+                       'mc_config:=param_sweep1.yaml', 
                        'robot_name:=' + self.name, 'sim:=false']
 
     def run_parameter_sweep(self):
@@ -31,7 +29,7 @@ class MCManager(object):
         self.launch_args = ['metrics', 'sim_mc_runs.launch','rviz:=false', 'include_cpu_mem_monitor:=true', 
             'cpu_mem_csv_file:=' + self.folder_path +'cpu_mem_metrics.csv', 
             'log_plan_metrics:=true', 'plan_metrics_csv_directory:='+ self.folder_path,
-            'search:=true', 'track:=false', 'mc_config:=mc_testing_search1.yaml', 
+            'mc_config:=mc_testing_search1.yaml', 
             'robot_name:=' + self.name, 'sim:=simple']
         #launch ipp nodes
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)

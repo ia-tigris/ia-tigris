@@ -19,7 +19,7 @@ namespace ipp
     {
     protected:
         // a pointer for polymorphism. a unique pointer to denote ownership
-        // TODO: for now for ICRA, we are only doing InfoMapTrack, not InfoMapSearch
+        // TODO: consider specializing this node for search map variants if needed.
         ros::NodeHandle nh;
         ros::NodeHandle pnh;
 

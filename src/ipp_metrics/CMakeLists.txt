@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   ipp_planners
   planner_map_interfaces
   ipp_simple_sim
-  ipp_belief
   core_planning_state_space
   math_utils
   roscpp
@@ -115,7 +114,7 @@ find_package(ompl REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES metrics
-#  CATKIN_DEPENDS ipp_planners planner_map_interfaces ipp_simple_sim ipp_belief
+#  CATKIN_DEPENDS ipp_planners planner_map_interfaces ipp_simple_sim
 #  DEPENDS system_lib
 )
 
@@ -187,7 +186,7 @@ target_link_libraries(${PROJECT_NAME}_mc_node
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 catkin_install_python(PROGRAMS
-  scripts/record_tracking_metrics.py
+  scripts/record_search_metrics.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

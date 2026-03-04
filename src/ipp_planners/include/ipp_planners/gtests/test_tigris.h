@@ -1,7 +1,5 @@
 #include "ipp_planners/SearchMap.h"
 #include "ipp_planners/Tigris.h"
-#include "ipp_planners/GreedyTrackPlanner.h"
-#include "ipp_planners/InfoMapTrack.h"
 #include <gtest/gtest.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Polygon_2_algorithms.h>
@@ -675,107 +673,5 @@ TEST(TestSearchMap, checkSearchInformationGainHashmapNoEdge)
 
     double info_out_total = info_out;
     double info_out_total_hashmap = info_out_hashmap;
-}
-
-TEST(TestIntersect, test_greedy_intersection)
-{
-    double drone_x = 0;
-    double drone_y = 0;
-    double drone_speed = 1.000001;
-    ipp::TargetCentroid new_centroid = {5, 5, 1, -PI/2, 0}; // x, y, speed, heading, var
-
-    auto intersection = ipp::GreedyTrackPlanner::solve_soonest_intersection_drone_to_target(drone_x, drone_y, drone_speed, new_centroid);
-
-    double drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    double target_dist = sqrt(pow(intersection.first-new_centroid.x, 2) + pow(intersection.second-new_centroid.y, 2));
-    double drone_time = drone_dist/drone_speed;
-    double target_time = target_dist/new_centroid.speed;
-    
-    EXPECT_TRUE(abs(intersection.first - 5.0) < 0.01);
-    EXPECT_TRUE(abs(intersection.second) < 0.01);
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
-
-
-    // Edge case where speeds are exactly the same, but should be able to find solution
-    drone_speed = 1.0;
-
-    intersection = ipp::GreedyTrackPlanner::solve_soonest_intersection_drone_to_target(drone_x, drone_y, drone_speed, new_centroid);
-
-    drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    target_dist = sqrt(pow(intersection.first-new_centroid.x, 2) + pow(intersection.second-new_centroid.y, 2));
-    drone_time = drone_dist/drone_speed;
-    target_time = target_dist/new_centroid.speed;
-    
-    EXPECT_TRUE(abs(intersection.first - 5.0) < 0.01);
-    EXPECT_TRUE(abs(intersection.second) < 0.01);
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
-
-
-    // Check the times till intersection are the same for both vehicles
-    drone_y = 1;
-    drone_speed = 25;
-    new_centroid = {200, 500, 20, 1.2, 0}; // x, y, speed, heading, var
-
-    intersection = ipp::GreedyTrackPlanner::solve_soonest_intersection_drone_to_target(drone_x, drone_y, drone_speed, new_centroid);
-
-    drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    target_dist = sqrt(pow(intersection.first-new_centroid.x, 2) + pow(intersection.second-new_centroid.y, 2));
-    drone_time = drone_dist/drone_speed;
-    target_time = target_dist/new_centroid.speed;
-    
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
-}
-
-TEST(TestIntersect, test_tracking_intersection)
-{
-    double drone_x = 0;
-    double drone_y = 0;
-    double drone_speed = 1.000001;
-
-    auto particle = tracking::TargetState(0, 5, 5, 110, -PI/2, 1, 0, 1.0);
-    // ipp::TargetCentroid new_centroid = {5, 5, 1, -PI/2, 0}; // x, y, speed, heading, var
-
-    auto intersection = ipp::InfoMapTrack::solve_soonest_intersection_drone_to_particle(drone_x, drone_y, drone_speed, particle);
-
-    double drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    double target_dist = sqrt(pow(intersection.first-particle.get_x(), 2) + pow(intersection.second-particle.get_y(), 2));
-    double drone_time = drone_dist/drone_speed;
-    double target_time = target_dist/particle.get_speed();
-    
-    EXPECT_TRUE(abs(intersection.first - 5.0) < 0.01);
-    EXPECT_TRUE(abs(intersection.second) < 0.01);
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
-
-
-    // Edge case where speeds are exactly the same, but should be able to find solution
-    drone_speed = 1.0;
-
-    intersection = ipp::InfoMapTrack::solve_soonest_intersection_drone_to_particle(drone_x, drone_y, drone_speed, particle);
-
-    drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    target_dist = sqrt(pow(intersection.first-particle.get_x(), 2) + pow(intersection.second-particle.get_y(), 2));
-    drone_time = drone_dist/drone_speed;
-    target_time = target_dist/particle.get_speed();
-    
-    EXPECT_TRUE(abs(intersection.first - 5.0) < 0.01);
-    EXPECT_TRUE(abs(intersection.second) < 0.01);
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
-
-
-    // Check the times till intersection are the same for both vehicles
-    drone_y = 1;
-    drone_speed = 25;
-
-    particle = tracking::TargetState(0, 200, 500, 110, 1.2, 20, 0, 1.0);
-    // ipp::TargetCentroid new_centroid = {200, 500, 20, 1.2, 0}; // x, y, speed, heading, var
-
-    intersection = ipp::InfoMapTrack::solve_soonest_intersection_drone_to_particle(drone_x, drone_y, drone_speed, particle);
-
-    drone_dist = sqrt(pow(intersection.first-drone_x, 2) + pow(intersection.second-drone_y, 2));
-    target_dist = sqrt(pow(intersection.first-particle.get_x(), 2) + pow(intersection.second-particle.get_y(), 2));
-    drone_time = drone_dist/drone_speed;
-    target_time = target_dist/particle.get_speed();
-    
-    EXPECT_TRUE(abs(drone_time-target_time) < 0.1);
 }
 
