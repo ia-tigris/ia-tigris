@@ -8,7 +8,7 @@ WORKDIR $WS
 # installing workspace dependencies
 RUN echo "Installing planner_ws dependencies... \n" &&\
     apt-get update && apt-get install --no-install-recommends -y apt-utils curl&&\
-    sudo apt-get install --no-install-recommends gdal-bin libgdal-dev libopencv-dev libusb-dev libeigen3-dev libcgal-dev libbenchmark-dev -y &&\
+    sudo apt-get install --no-install-recommends gdal-bin libgdal-dev libusb-dev libeigen3-dev libcgal-dev libbenchmark-dev -y &&\
     sudo apt-get install --no-install-recommends ros-melodic-image-transport ros-melodic-image-geometry ros-melodic-cv-bridge ros-melodic-tf-conversions ros-melodic-tf ros-melodic-angles ros-melodic-pcl-ros ros-melodic-catkin python-catkin-tools -y &&\
     apt-get update &&\
     sudo apt-get install --no-install-recommends ros-melodic-catkin python-catkin-tools -y &&\

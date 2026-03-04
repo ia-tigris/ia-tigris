@@ -1,5 +1,4 @@
 // #include "ipp_planners/ipp_planners_node.h"
-#include <opencv2/imgproc.hpp>
 #include <ros/ros.h>
 #include <eigen_conversions/eigen_msg.h>
 #include <planner_map_interfaces/Plan.h>
@@ -79,11 +78,6 @@ float fy = 336.039570;
 float cx = 160.829;
 float cy = 112.614;
 Eigen::Matrix3d K_inv;
-
-/* ---- PROPAGATION ATTRIBUTES ---- */ 
-bool use_gaussian_propagation;
-double gaussian_sigma;
-int gaussian_kernel_size;
 
 /* ---- VISUALIZATION ATTRIBUTES ---- */ 
 double visualization_alpha=0.2;
@@ -479,9 +473,6 @@ int main(int argc, char **argv)
     use_ratio_distance_params = ros_utils::get_param<bool>(pnh, "use_ratio_distance_params", false);
     map_resolution_num = ros_utils::get_param<int>(pnh, "map_resolution_num", 100);
     confidence_threshold = ros_utils::get_param<double>(pnh, "confidence_threshold", 0.5);
-    use_gaussian_propagation = ros_utils::get_param<bool>(pnh, "use_gaussian_propagation", false);
-    gaussian_sigma = ros_utils::get_param<double>(pnh, "gaussian_sigma", 3.0);
-    gaussian_kernel_size = ros_utils::get_param<int>(pnh, "gaussian_kernel_size", 5);
     node_loop_hz = ros_utils::get_param<double>(pnh, "node_loop_hz", 5);
     visualize = ros_utils::get_param<bool>(pnh, "visualization", true);
     search_belief_publishing_every_n_loops = ros_utils::get_param<int>(pnh, "search_belief_publishing_every_n_loops", 1);
@@ -807,32 +798,6 @@ int main(int argc, char **argv)
         }
         // publish search metrics for testing
 
-        // Perform a Gaussian Blur on the map
-        if (use_gaussian_propagation){
-        cv::Mat map_mat;
-            map_mat.create(search_map.num_rows, search_map.num_cols, CV_64FC1);
-            for (size_t i = 0; i < search_map.map.size(); i++)
-            {
-                for (size_t j = 0; j < search_map.map[i].size(); j++)
-                {
-                    map_mat.at<double>(i, j) = search_map.map[i][j];
-                }
-            }
-            // cv::boxFilter(map_mat, map_mat, -1, cv::Size(gaussian_kernel_size, gaussian_kernel_size));
-            cv::GaussianBlur(map_mat, map_mat, cv::Size(gaussian_kernel_size, gaussian_kernel_size), gaussian_sigma);
-            for (size_t i = 0; i < search_map.map.size(); i++)
-            {
-                for (size_t j = 0; j < search_map.map[i].size(); j++)
-                {
-                    if (search_map.map[i][j] > 0 && map_mat.at<double>(i, j) > search_map.map[i][j])
-                    {
-                        search_map.map[i][j] = map_mat.at<double>(i, j);
-                    }
-                }
-            }
-            search_map.copy_map = search_map.map;
-        }
-        // End Gaussian Blur
         // visualize the map itself
         if (visualize && loop_counter % search_belief_publishing_every_n_loops == 0)
         {

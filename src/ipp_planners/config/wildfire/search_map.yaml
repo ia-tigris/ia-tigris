@@ -16,11 +16,6 @@ confidence_threshold: 0.5
 time_decay_slope: 0 # must be negative. Decrease in scale value per second
 time_decay_floor: 1 # minimum scalar value from time decay
 
-# uncertainty diffusion rate, must be odd number
-use_gaussian_propagation: false
-gaussian_kernel_size: 9
-gaussian_sigma: 3.0  # main diffusion rate adjustment
-
 update_from_image_projection: true
 
 # Visualization

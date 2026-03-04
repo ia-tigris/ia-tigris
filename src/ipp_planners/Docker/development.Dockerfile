@@ -10,7 +10,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 # installing workspace dependencies
 RUN echo "Installing planner_ws dependencies... \n" &&\
     apt-get update && apt-get install -y apt-utils && apt-get install -y curl
-RUN sudo apt-get install gdal-bin libgdal-dev libopencv-dev libusb-dev libeigen3-dev libcgal-dev libbenchmark-dev -y 
+RUN sudo apt-get install gdal-bin libgdal-dev libusb-dev libeigen3-dev libcgal-dev libbenchmark-dev -y 
 RUN sudo apt-get install ros-noetic-image-transport ros-noetic-image-geometry -y
 RUN sudo apt-get install ros-noetic-cv-bridge ros-noetic-tf-conversions ros-noetic-tf -y 
 RUN sudo apt-get install ros-noetic-angles ros-noetic-geometry2 ros-noetic-pcl-ros ros-noetic-catkin python3-catkin-tools -y 

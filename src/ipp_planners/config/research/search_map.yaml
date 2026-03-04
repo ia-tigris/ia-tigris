@@ -16,11 +16,6 @@ no_info_on_turns: true  # whether to give information reward on turns or not
 time_decay_slope: 0 # must be negative. Decrease in scale value per second
 time_decay_floor: 1 # minimum scalar value from time decay
 
-# uncertainty diffusion rate, must be odd number
-use_gaussian_propagation: false # ONR does not use propagation
-gaussian_kernel_size: 0
-gaussian_sigma: 0.0  # main diffusion rate adjustment
-
 # Visualization
 update_from_image_projection: false
 visualization: true

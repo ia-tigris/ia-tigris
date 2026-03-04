@@ -46,10 +46,6 @@ include_directories(${Eigen_INCLUDE_DIRS})
 find_package(ompl REQUIRED)
 include_directories(${OMPL_INCLUDE_DIRS})
 
-# OpenCV
-find_package(OpenCV REQUIRED)
-include_directories( ${OpenCV_INCLUDE_DIRS} )
-
 # CGAL
 find_package(CGAL REQUIRED)
 
@@ -216,7 +212,6 @@ target_link_libraries(${PROJECT_NAME}_search_map
   ipp_planners
   ${catkin_LIBRARIES}
   ${OMPL_LIBRARIES}
-  ${OpenCV_LIBS}
   CGAL::CGAL
   stdc++fs
 )
@@ -236,7 +231,6 @@ target_link_libraries(${PROJECT_NAME}_search_map
 # # Mark executable scripts (Python etc.) for installation
 # # in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/pub_dummy_image_with_pose.py
   scripts/planner_simple_waypoint_manager.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
