@@ -52,14 +52,6 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: rviz/Marker
-      Enabled: false
-      Marker Topic: /simulator/markers/ocean_plane
-      Name: Ocean
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612

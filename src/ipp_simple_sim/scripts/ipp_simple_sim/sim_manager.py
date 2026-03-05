@@ -283,25 +283,6 @@ class SimManager:
         self.sim_env.update_waypoints(msg, id_num)
         self.waiting_for_plan = False
 
-    def get_ocean_marker(self, time, frame):
-        ocean_marker = Marker()
-        ocean_marker.header.frame_id = frame
-        ocean_marker.ns = "ocean"
-        ocean_marker.header.stamp = time
-        ocean_marker.id = 0
-        ocean_marker.type = Marker.CUBE
-        ocean_marker.action = Marker.ADD
-        ocean_marker.lifetime = rospy.Duration()
-        ocean_marker.color.r = 0
-        ocean_marker.color.b = 1.0
-        ocean_marker.color.g = 0.8
-        ocean_marker.color.a = 1
-        ocean_marker.scale.x = 10000
-        ocean_marker.scale.y = 10000
-        ocean_marker.scale.z = 1
-        ocean_marker.pose.position.z = -1
-        return ocean_marker
-
     def get_agent_marker(self, time, frame, agent_odom):
         agent_marker_list = MarkerArray()
         for id_num in range(self.num_agents):
@@ -752,9 +733,6 @@ class SimManager:
         )
 
         # visualization publishers
-        ocean_marker_pub = rospy.Publisher(
-            "simulator/markers/ocean_plane", Marker, queue_size=2
-        )
         agent_marker_pub = rospy.Publisher(
             "simulator/markers/agent_mesh", MarkerArray, queue_size=10
         )
@@ -855,7 +833,6 @@ class SimManager:
                 agent_trajectory_pub.publish(
                     self.get_agent_trajectory_marker(time, frame, agent_odom)
                 )
-                ocean_marker_pub.publish(self.get_ocean_marker(time, frame))
                 agent_marker_pub.publish(self.get_agent_marker(time, frame, agent_odom))
                 projection_marker_pub.publish(
                     self.get_projection_marker(
