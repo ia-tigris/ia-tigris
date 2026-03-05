@@ -53,6 +53,11 @@ source devel/setup.bash
 
 For platforms without native ROS Noetic or when running headless, use Docker with Foxglove for visualization.
 
+Install Foxglove first:
+
+- [Foxglove Desktop download](https://foxglove.dev/download)
+- [Foxglove Web App](https://app.foxglove.dev/)
+
 **Start the container:**
 ```bash
 cd /home/moon/code/ia-tigris
@@ -82,10 +87,18 @@ roslaunch ipp_planners main.launch \
 
 **Connect Foxglove to:** `ws://localhost:8765`
 
+In Foxglove:
+
+1. Open Foxglove Desktop (or Web App).
+2. Click `Open connection`.
+3. Choose `WebSocket`.
+4. Enter `ws://localhost:8765`.
+5. Start streaming and add panels as needed (for example, 3D and Raw Messages).
+
 **Send a plan request (in another terminal):**
 ```bash
 docker compose -f src/ipp_planners/docker-compose.yml exec ros bash -c \
-  "source /workspace/devel/setup.bash && rosrun planner_map_interfaces pub_plan_request_from_yaml.py \$(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml"
+  "source /workspace/devel/setup.bash && rosrun planner_map_interfaces pub_plan_request_from_yaml.py \$(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search_scenario_1.yaml"
 ```
 
 The workspace is mounted as a volume (`../../:/workspace`), so build artifacts (`build/`, `devel/`, `logs/`) appear on the host.
@@ -190,9 +203,10 @@ TODO
 - Remove ONR references
 - Good set of example plan requests
 - Check the metrics scripts to replicate paper results. Clear instructions in readme.
-- check runs in docker on mac
-- Remove MIGRATION_SNAPSHOT.md if no longer needed after migration is complete
 - Check default rviz configurations
-- Check foxglove visualizations. Border, etc. 
 - Have someone else try this readme and instructions. 
 - Update top of readme to look like a paper reaadme with title, authors, image. Paper ciatation. Video link, website link, etc. 
+- fix cgal warning about needing to build in release. ARen't we in release already? 
+- default foxglove config?
+  - Check foxglove visualizations. Border, etc. 
+- grid cells updating 
