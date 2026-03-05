@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(planner_map_interfaces)
 
 ## Compile as C++11, supported in ROS Kinetic and newer

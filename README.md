@@ -44,7 +44,7 @@ sudo apt install -y \
 sudo rosdep init || true
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
-catkin config --extend /opt/ros/noetic
+catkin config --extend /opt/ros/noetic --cmake-args -DCMAKE_BUILD_TYPE=Release -DCATKIN_ENABLE_TESTING=OFF -Wno-dev
 catkin build --no-status --summarize
 source devel/setup.bash
 ```
