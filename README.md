@@ -49,25 +49,48 @@ catkin build --no-status --summarize
 source devel/setup.bash
 ```
 
-## macOS Setup (Docker)
+## Docker Setup (macOS / Ubuntu 24.04 / Headless)
 
+For platforms without native ROS Noetic or when running headless, use Docker with Foxglove for visualization.
+
+**Start the container:**
 ```bash
+cd /home/moon/code/ia-tigris
 docker compose -f src/ipp_planners/docker-compose.yml up -d ros
-docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 ```
 
-Canonical compose file location is [src/ipp_planners/docker-compose.yml](src/ipp_planners/docker-compose.yml) and it should remain package-local.
-Running from repo root with `-f` keeps paths explicit and avoids changing compose context semantics.
-
-Use `up + exec` as the default workflow so all terminals use the same running ROS container.
-Container is configured with an entrypoint that auto-sources ROS (`/opt/ros/noetic/setup.bash`).
-Build once inside the container:
-
+**Build the workspace (first time only):**
 ```bash
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
+# Inside container:
 cd /workspace
 catkin config --extend /opt/ros/noetic
 catkin build --no-status --summarize
+source devel/setup.bash
 ```
+
+**Run the demo:**
+```bash
+# Inside the container (or in a new exec session):
+roslaunch ipp_planners main.launch \
+  config:=onr \
+  planner:=tigris \
+  sim:=simple \
+  rviz:=false \
+  foxglove:=true
+```
+
+**Connect Foxglove to:** `ws://localhost:8765`
+
+**Send a plan request (in another terminal):**
+```bash
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash -c \
+  "source /workspace/devel/setup.bash && rosrun planner_map_interfaces pub_plan_request_from_yaml.py \$(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml"
+```
+
+The workspace is mounted as a volume (`../../:/workspace`), so build artifacts (`build/`, `devel/`, `logs/`) appear on the host.
+
+
 
 ## Run: Simple Sim Demo
 
@@ -90,31 +113,14 @@ rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
   $(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml
 ```
 
-### macOS (Foxglove recommended)
+### Docker (Foxglove)
 
-Terminal 1:
+See [Docker Setup](#docker-setup-macos--ubuntu-2404--headless) section above for the complete workflow.
 
-```bash
-docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
-roslaunch ipp_planners main.launch \
-  config:=onr \
-  planner:=tigris \
-  sim:=simple \
-  rviz:=false \
-  foxglove:=true
-```
-
-Then connect Foxglove to:
-
-- `ws://localhost:8765`
-
-To publish an example request:
-
-```bash
-docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
-  $(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml
-```
+Key points:
+- Use `rviz:=false foxglove:=true` when launching
+- Connect to `ws://localhost:8765` in Foxglove
+- Foxglove bridge is already exposed via compose on port 8765
 
 ### macOS Optional: RViz via noVNC
 
@@ -153,6 +159,22 @@ roslaunch metrics sim_mc_runs.launch \
   sim:=simple \
   include_cpu_mem_monitor:=true
 ```
+
+## Benchmarks & Testing
+
+For isolated testing, reproducibility, or CI (platforms without native ROS), use the benchmark script:
+
+```bash
+src/ipp_planners/scripts/build_test_benchmark.sh
+```
+
+This builds an isolated Docker image with the full workspace (no host artifacts), runs unit tests and benchmarks, and saves results to `src/ipp_planners/test_results/<timestamp>/`.
+
+Options:
+- `-b true/false` - Build image from scratch
+- `-u true/false` - Run unit tests
+- `-t true/false` - Run benchmarks
+- `-l true/false` - Run tests locally (no Docker)
 
 ## ipp_planners Dockerfiles (Current State)
 
