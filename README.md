@@ -183,3 +183,16 @@ Options:
 Default output directory is configured in:
 
 - `src/ipp_metrics/launch/sim_mc_runs.launch`
+
+
+TODO
+- Remove extra configs. Keep research, m600, maybe devel and journal
+- Remove ONR references
+- Good set of example plan requests
+- Check the metrics scripts to replicate paper results. Clear instructions in readme.
+- check runs in docker on mac
+- Remove MIGRATION_SNAPSHOT.md if no longer needed after migration is complete
+- Check default rviz configurations
+- Check foxglove visualizations. Border, etc. 
+- Have someone else try this readme and instructions. 
+- Update top of readme to look like a paper reaadme with title, authors, image. Paper ciatation. Video link, website link, etc. 
