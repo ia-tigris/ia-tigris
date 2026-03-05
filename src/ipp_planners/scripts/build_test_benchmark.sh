@@ -1,10 +1,13 @@
 #!/bin/bash
-# This script builds a dev docker image, runs unit tests, and benchmarks your current codebase. 
-# See flags for only running portions of the script
-build_image=true 
-unit_tests=true 
+# This script builds an isolated test docker image, runs unit tests, and benchmarks.
+# The image copies source into the container and builds there (no host pollution).
+# See flags for only running portions of the script.
+build_image=true
+unit_tests=true
 full_tests=true
 local_test=false
+workspace_root="$(realpath "$(dirname "$0")/../../../")"
+docker_image="ipp-test"
 
 while getopts b:u:t:l: flag
 do
@@ -22,21 +25,22 @@ echo "Run Full Tests: $full_tests";
 echo "Test locally (no Docker): $local_test";
 
 
-# Builds the Docker Image
+# Builds the isolated test Docker image (multi-stage target)
 if [ "$build_image" = true ] ; then
-    build_file="`dirname $0`/../Docker/dev.Dockerfile"
-    build_context="`dirname $0`/../../../"
-    echo "Building Docker image of $build_file on 18.04" 
-    echo "Build context is $build_context"
-    docker build -t ipp-dev-18-04 -f $build_file $build_context
+    echo "Building isolated test image '$docker_image' from workspace root"
+    docker build \
+        --memory=8g \
+        -t "$docker_image" \
+        --target test \
+        -f src/ipp_planners/Dockerfile \
+        "$workspace_root"
 
     if [ $? -eq 0 ]; then
         echo ""
-        echo ""
-        echo "Docker image built successfully on 18.04"
+        echo "Docker test image built successfully"
     else
         echo ""
-        echo "Docker image failed to build on 18.04"
+        echo "Docker test image failed to build"
         exit 1
     fi
 fi
@@ -66,82 +70,53 @@ if [ "$unit_tests" = true ] ; then
         echo "Running locally"
         $test_file $results_mount_folder
     else
-        echo "Running in Docker"
+        echo "Running in isolated Docker container"
         docker run -it \
-        --memory=8g \
-        --cpus=4 \
-        --rm \
-        --name run_those_tests \
-        --mount type=bind,source="$results_mount_folder",target=/test_results \
-        ipp-dev-18-04 \
-        /bin/bash $test_file /test_results
+            --memory=8g \
+            --cpus=4 \
+            --rm \
+            --name run_those_tests \
+            --mount type=bind,source="$results_mount_folder",target=/test_results \
+            "$docker_image" \
+            /bin/bash $test_file /test_results
     fi
 fi
 
 # Run full benchmarks
 if [ "$full_tests" = true ] ; then
-    test_file="src/ipp_planners/scripts/search_benchmarks.sh"
-    echo ""
-    echo ""
-    echo "Running benchmarks from script $test_file"
-    echo ""
-    if [ "$local_test" = true ] ; then
-        cd $results_mount_folder/../../../../
-        echo "Running locally"
-        $test_file $results_mount_folder
-    else
-        echo "Running in Docker"
-        docker run -it \
-        --memory=8g \
-        --cpus=4 \
-        --rm \
-        --name run_those_tests \
-        --mount type=bind,source="$results_mount_folder",target=/test_results \
-        ipp-dev-18-04 \
-        /bin/bash $test_file /test_results
-    fi
+    benchmark_scripts=(
+        "src/ipp_planners/scripts/search_benchmarks.sh"
+        "src/ipp_planners/scripts/search_track_benchmarks.sh"
+        "src/ipp_planners/scripts/track_benchmarks.sh"
+    )
 
-    test_file="src/ipp_planners/scripts/search_track_benchmarks.sh"
-    echo ""
-    echo ""
-    echo "Running benchmarks from script $test_file"
-    echo ""
-    if [ "$local_test" = true ] ; then
-        cd $results_mount_folder/../../../../
-        echo "Running locally"
-        $test_file $results_mount_folder
-    else
-        echo "Running in Docker"
-        docker run -it \
-        --memory=8g \
-        --cpus=4 \
-        --rm \
-        --name run_those_tests \
-        --mount type=bind,source="$results_mount_folder",target=/test_results \
-        ipp-dev-18-04 \
-        /bin/bash $test_file /test_results
-    fi
+    for test_file in "${benchmark_scripts[@]}"; do
+        echo ""
+        echo ""
+        echo "Running benchmarks from script $test_file"
+        echo ""
 
-    test_file="src/ipp_planners/scripts/track_benchmarks.sh"
-    echo ""
-    echo ""
-    echo "Running benchmarks from script $test_file"
-    echo ""
-    if [ "$local_test" = true ] ; then
-        cd $results_mount_folder/../../../../
-        echo "Running locally"
-        $test_file $results_mount_folder
-    else
-        echo "Running in Docker"
-        docker run -it \
-        --memory=8g \
-        --cpus=4 \
-        --rm \
-        --name run_those_tests \
-        --mount type=bind,source="$results_mount_folder",target=/test_results \
-        ipp-dev-18-04 \
-        /bin/bash $test_file /test_results
-    fi
+        if [ ! -f "$workspace_root/$test_file" ]; then
+            echo "Skipping missing benchmark script: $test_file"
+            continue
+        fi
+
+        if [ "$local_test" = true ] ; then
+            cd $results_mount_folder/../../../../
+            echo "Running locally"
+            $test_file $results_mount_folder
+        else
+            echo "Running in isolated Docker container"
+            docker run -it \
+                --memory=8g \
+                --cpus=4 \
+                --rm \
+                --name run_those_tests \
+                --mount type=bind,source="$results_mount_folder",target=/test_results \
+                "$docker_image" \
+                /bin/bash $test_file /test_results
+        fi
+    done
 fi
 
 

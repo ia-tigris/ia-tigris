@@ -248,19 +248,22 @@ Add to .zschrc if needed with `echo 'export PATH="$HOME/Library/Python/3.9/bin:$
 vcs import < ipp_planners/ws_develop.repos
 ```
 
-Then run the docker
+Then run Docker.
+
+From ia-tigris workspace root:
 ```
-cd ipp_planners
-docker compose up -d
-docker compose exec ros
+docker compose -f src/ipp_planners/docker-compose.yml up -d
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 source /opt/ros/noetic/setup.bash
 catkin build
 source devel/setup.bash
 ```
 
+If you are inside the ipp_planners package directory (`src/ipp_planners`), you can use `docker compose up -d` and `docker compose exec ros bash`.
+
 When done, can run 
 ```
-docker compose down
+docker compose -f src/ipp_planners/docker-compose.yml down
 ```
 
 

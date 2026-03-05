@@ -2,7 +2,7 @@ services:
   ros:
     build:
       context: .
-      dockerfile: Docker/development.Dockerfile
+      target: ipp_planner
     container_name: ros
     environment:
       - ENABLE_HEADLESS_DISPLAY=${ENABLE_HEADLESS_DISPLAY:-0}

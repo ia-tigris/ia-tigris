@@ -52,10 +52,12 @@ source devel/setup.bash
 ## macOS Setup (Docker)
 
 ```bash
-cd src/ipp_planners
-docker compose up -d ros
-docker compose exec ros bash
+docker compose -f src/ipp_planners/docker-compose.yml up -d ros
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 ```
+
+Canonical compose file location is [src/ipp_planners/docker-compose.yml](src/ipp_planners/docker-compose.yml) and it should remain package-local.
+Running from repo root with `-f` keeps paths explicit and avoids changing compose context semantics.
 
 Use `up + exec` as the default workflow so all terminals use the same running ROS container.
 Container is configured with an entrypoint that auto-sources ROS (`/opt/ros/noetic/setup.bash`).
@@ -93,7 +95,7 @@ rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
 Terminal 1:
 
 ```bash
-docker compose exec ros bash
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 roslaunch ipp_planners main.launch \
   config:=onr \
   planner:=tigris \
@@ -109,18 +111,18 @@ Then connect Foxglove to:
 To publish an example request:
 
 ```bash
-docker compose exec ros bash
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
   $(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml
 ```
 
 ### macOS Optional: RViz via noVNC
 
-From `src/ipp_planners` on host:
+From repo root on host:
 
 ```bash
-ENABLE_HEADLESS_DISPLAY=1 docker compose --profile vnc up -d
-docker compose exec ros bash
+ENABLE_HEADLESS_DISPLAY=1 docker compose -f src/ipp_planners/docker-compose.yml --profile vnc up -d
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 ```
 
 Notes:
@@ -145,12 +147,16 @@ Open:
 ## Metrics / Monte Carlo Sweeps
 
 ```bash
-docker compose exec ros bash
+docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 roslaunch metrics sim_mc_runs.launch \
   config:=research \
   sim:=simple \
   include_cpu_mem_monitor:=true
 ```
+
+## ipp_planners Dockerfiles (Current State)
+
+- Active image: [src/ipp_planners/Dockerfile](src/ipp_planners/Dockerfile) (used by [src/ipp_planners/docker-compose.yml](src/ipp_planners/docker-compose.yml) and [src/ipp_planners/scripts/build_test_benchmark.sh](src/ipp_planners/scripts/build_test_benchmark.sh)).
 
 Default output directory is configured in:
 

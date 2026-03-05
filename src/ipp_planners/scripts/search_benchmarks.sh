@@ -2,7 +2,9 @@
 # This script ajfdklsdfj
 folder_path=$1
 set -m
-source devel/setup.bash
+catkin_devel_path="${CATKIN_DEVEL_PATH:-devel}"
+source "/opt/ros/noetic/setup.bash"
+source "$catkin_devel_path/setup.bash"
 
 
 ############################################
