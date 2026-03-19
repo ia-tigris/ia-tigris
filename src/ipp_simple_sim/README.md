@@ -43,8 +43,3 @@ roslaunch main.launch sim:=true
 # separate terminal, visualize in RViz
 rviz -d src/ipp_simple_sim/rviz/sim.rviz
 ```
-
-If you encounter an import error run the following command
-```
-export PYTHONPATH="${PYTHONPATH}:/home/satrajit/Documents/planner_ws/src/ipp_simple_sim" 
-```
