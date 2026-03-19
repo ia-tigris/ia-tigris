@@ -1,0 +1,17 @@
+*.ckpt
+*.pt
+*.ipynb_checkpoints
+
+**/data/*
+**/train_data/*
+lightning_logs/
+notes
+results.csv
+results*
+browse.vc.db
+.idea/
+test_trochoids*
+test_results/
+
+__pycache__
+*.pyc

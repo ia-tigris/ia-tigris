@@ -1,0 +1,27 @@
+# .dockerignore — compose context (src/ipp_planners/)
+# The ipp_planner stage has no COPY of source, but this keeps the
+# context tarball small and avoids accidentally sending large dirs.
+
+test_results/
+results/
+img/
+neuralnet/
+versions/
+.github/
+**/data/
+**/train_data/
+
+# Python / compiled
+**/__pycache__/
+**/*.pyc
+**/*.so
+**/*.dylib
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Docker meta
+docker-compose*.yml
+Docker/

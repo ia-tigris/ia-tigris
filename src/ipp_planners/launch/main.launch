@@ -1,0 +1,132 @@
+<!-- Top level launch file. -->
+
+<launch>
+    <!-- =========== START GENERAL LAUNCH ===========  -->
+    <!-- Overarching config subfolder name -->
+    <arg name="config" default="fixed-wing"/>
+
+    <!-- Robot namespace. We use "robot_name" to be compatible with AirLab Core Stack -->
+    <arg name="robot_name" default="uav1"/>
+
+    <!-- Visualization and Exporting -->
+    <arg name="rviz" default="true"/>
+    <arg name="rviz_file" default="$(arg config).rviz" />
+    <arg name="record_bag" default="false"/>
+    <arg name="rosbridge" default="false"/>
+    <arg name="foxglove" default="false"/>
+    <arg name="foxglove_port" default="8765"/>
+    <!--  Launch the rosbridge to use Webviz -->
+    <group if="$(arg rosbridge)">
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    </group>
+    <!-- Launch Foxglove bridge -->
+    <group if="$(arg foxglove)">
+        <include file="$(find foxglove_bridge)/launch/foxglove_bridge.launch">
+            <arg name="port" value="$(arg foxglove_port)"/>
+            <arg name="address" value="0.0.0.0"/>
+        </include>
+    </group>
+
+    <!-- Logging  -->
+    <arg name="loglevel" default="info"/>
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find ipp_planners)/config/logging/rosconsole_$(arg loglevel).config"/>
+    <arg name="log_plan_metrics" default="false"/>
+    <arg name="planner_metrics_csv_file" default="$(find ipp_planners)/plan_metrics.csv"/>
+    <arg name="final_path_csv_file" default="$(find ipp_planners)/final_path.csv"/>
+
+    <!-- CPU and Memory Monitor -->
+    <arg name="include_cpu_mem_monitor" default="false"/>
+    <arg name="cpu_mem_csv_file" default="cpu_monitor.csv"/>
+
+
+    <!-- Rosbag Recording -->
+    <group if="$(arg record_bag)">
+        <include file="$(find ipp_planners)/launch/record_bag.launch" pass_all_args="true"/>
+    </group>
+
+    <!-- CPU and Memory Monitor -->
+    <group if="$(arg include_cpu_mem_monitor)">
+        <include file="$(find cpu_monitor)/launch/cpu_monitor.launch">
+            <arg name="save_to_csv" value="true" />
+            <arg name="csv_file" value="$(arg cpu_mem_csv_file)" />
+        </include>
+    </group>
+    <!-- =========== END GENERAL LAUNCH =============  -->
+
+    <!-- ===== TRANSFORMS ===== -->
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="local_enu_tf_broadcaster" args="0 0 0 0 0 0 1 world local_enu" /> -->
+
+    <!-- =========== START SIMULATOR LAUNCH ===========  -->
+    <!-- ~~~ ARGUMENTS ~~~ -->
+    <!-- Options:  false, simple_ships, firevision -->
+    <arg name="sim" default="false"/>
+
+    <!-- If true, sets use_sim_time=true so that nodes will use the /clock topic published by rosbags instead of system time. -->
+    <arg name="use_bag_time" default="false"/>
+    <param name="use_sim_time" value="$(arg use_bag_time)"/>
+
+    <!-- ~~~ INCLUDES ~~~ -->
+    <!-- Simulator Selector -->
+    <include file="$(find ipp_planners)/launch/sim_selector.launch" pass_all_args="true">
+        <!-- Turn single name into list of names -->
+        <arg name="robot_names" value="[$(arg robot_name)]"/>
+    </include>
+    <!-- =========== END SIMULATOR LAUNCH =============  -->
+
+
+    <group ns="$(arg robot_name)">
+        <!-- =========== START PERCEPTION LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <arg name="perception" default="false"/>
+        <arg name="use_docker_obj_det" default="false"/>
+			  <arg name="use_docker" value="$(arg use_docker_obj_det)" />
+        <!-- Launch the perception node -->
+
+        <group ns="sensor">
+            <rosparam subst_value="true" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />
+        </group>
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- real perception -->
+        <include file="$(find object_detection)/launch/ipp_computer_vision.launch" if="$(eval arg('perception') == true)" pass_all_args="true" />
+        <!-- fake perception for simple sim -->
+        <include file="$(find simulated_perception)/launch/simulated_perception.launch" if="$(eval arg('perception') == false and arg('sim') == 'simple')" pass_all_args="true"/>
+        <!-- =========== END PERCEPTION LAUNCH =============  -->
+
+
+        <!-- =========== START BELIEF LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <!-- Launch the belief nodes -->
+
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- search belief -->
+        <include file="$(find ipp_planners)/launch/search_belief.launch" pass_all_args="true" />
+
+        <!-- =========== END BELIEF LAUNCH =============  -->
+
+
+        <!-- =========== START PLANNER LAUNCH===========  -->
+        <!-- ~~~ ARGUMENTS ~~~ -->
+        <!-- Planner -->
+        <arg name="planner" default="tigris"/>
+
+        <!-- Learning -->
+        <arg name="gen_train_data" default="false"/>
+
+        <!-- visualize plans while plan is being made. Note this adds to planning time -->
+        <arg name="vis_while_planning" default="false"/>
+
+        <!-- ~~~ INCLUDES ~~~ -->
+        <!-- Launch the planning node -->
+        <group if="$(eval arg('planner') != 'false')">
+            <include file="$(find ipp_planners)/launch/planner.launch" pass_all_args="true" />
+            <node pkg="ipp_planners" type="planner_simple_waypoint_manager.py" name="planner_simple_waypoint_manager" output="screen" respawn="true" if="$(eval arg('config') == 'wildfire')" />
+        </group>
+        <!-- =========== END PLANNER LAUNCH =============  -->
+
+
+        <!-- =========== START CONTROLS LAUNCH===========  -->
+        <!-- Nothing for now -->
+        <!-- =========== END CONTROLS LAUNCH =============  -->
+    </group>
+
+</launch>

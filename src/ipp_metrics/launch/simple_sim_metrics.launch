@@ -1,0 +1,13 @@
+<launch>
+
+<arg name="config" default="fixed-wing"/>
+
+<group ns="sensor">
+    <rosparam subst_value="true" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />
+</group>
+
+<node name="uav1_simple_sim_metrics" pkg="metrics" type="record_search_metrics.py" output="screen">
+    <param name="robot_name" value="uav1"/>
+</node>
+
+</launch>

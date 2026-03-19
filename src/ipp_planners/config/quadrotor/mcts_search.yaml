@@ -1,0 +1,23 @@
+# MCTS-base config, to be included after planner.yaml
+# all other similarly named *mcts.yaml's are SYMLINKED using ln -sT mcts.yaml [specific]mcts.yaml. so they share parameters
+gen_train_data: "false"
+
+# max_rollout_depth: 100  
+max_rollout_depth: 50  
+# num_actions: 10
+num_actions: 10  # the first N-target actions are directly at the mean
+exploration_weight: 1.0
+
+# tree parameters. used if `use_ratio_distance_params: false`
+mcts_extend_angle: 3.1415926
+mcts_extend_radius: 300
+mcts_extend_dist: 3000
+mcts_branches_each_side: 3
+
+rollout_type: "primitive"  # can be "primitive" or "informed" or "learned"
+
+# tree parameters as ratios. use these to make the distance parameters be set in proportion to the max bounds measurement
+use_ratio_distance_params: false  
+extend_dist_ratio: .6  
+extend_radius_ratio: .6
+

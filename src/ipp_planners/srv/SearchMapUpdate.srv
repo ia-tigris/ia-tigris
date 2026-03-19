@@ -1,0 +1,15 @@
+# returns a ROS-serialized SearchMap
+
+# no input necessary
+---
+# everything needed to construct a SearchMap
+geometry_msgs/Polygon search_bounds
+int32 x_start
+int32 y_start
+int32 x_end
+int32 y_end
+int32 map_resolution
+float32 confidence_threshold
+float64[] map_values
+float64[] priority_map
+int32[] sensor_model_id_map

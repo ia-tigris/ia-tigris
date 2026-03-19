@@ -1,0 +1,29 @@
+<!-- Launches the simple simulator -->
+
+<launch>
+    <!-- ===== ARGUMENTS ===== -->
+    <!-- <arg name="rviz" default="false"/> -->
+    <arg name="robot_names" default="[]"/>
+    <arg name="num_agents" default="1"/>
+    <arg name="centralized" default="false"/>
+    <arg name="simulate_perception" default="true"/>
+
+    <!-- <arg name="robot_name" default=""/> -->
+
+    <!-- ===== INCLUDES ===== -->
+
+    <!-- ===== NODES ===== -->
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ipp_simple_sim)/rviz/sim.rviz" if="$(eval arg('rviz') == true)"/> -->
+
+    <node name="sim_manager_node" pkg="ipp_simple_sim" type="sim_manager.py" output="screen">
+        <param name="centralized" value="$(arg centralized)"/>
+        <param name="num_agents" value="$(arg num_agents)"/>
+        <param name="planner_path" value="/global_path"/>
+        <rosparam param="robot_names" subst_value="True">$(arg robot_names)</rosparam> 
+        <rosparam file="$(find ipp_simple_sim)/config/$(arg config)/sim.yaml" />
+    </node>
+
+    <!-- ===== TRANSFORMS ===== -->
+    <!-- Transformation between the robot frame and the camera frame (pointing straight downward) -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="base_to_thermal_camera_link" args="0.0543145 0.041098 -0.27658746 -1.5707963 0 3.14159 $(arg robot_name)/base_link $(arg robot_name)/thermal/camera_link 100" /> -->
+</launch>

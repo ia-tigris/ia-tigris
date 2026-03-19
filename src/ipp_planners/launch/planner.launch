@@ -1,0 +1,53 @@
+<launch>
+    <!-- ===== ARGUMENTS ===== -->
+    <!-- Overarching config subfolder name -->
+    <arg name="config" default="fixed-wing"/>
+
+    <!-- Agent state namespace -->
+    <arg name="robot_name" default="simulator"/>
+
+    <!-- Planner -->
+    <arg name="planner" default="tigris"/>
+
+    <!-- Learning -->
+    <arg name="gen_train_data" default="false"/>
+
+    <!-- Visualization and Exporting -->
+    <arg name="rviz" default="false"/>
+    <arg name="rviz_file" default="$(arg config).rviz" />
+    <arg name="vis_while_planning" default="false"/> <!-- visualize plans while plan is being made. Note this adds to planning time -->
+
+    <!-- Logging -->
+    <arg name="log_plan_metrics" default="false"/>
+    <arg name="planner_metrics_csv_file" default="$(find ipp_planners)/plan_metrics.csv"/>
+    <arg name="final_path_csv_file" default="$(find ipp_planners)/final_path.csv"/>
+
+    <!-- ===== INCLUDES ===== -->
+
+    <node pkg="ipp_planners" type="ipp_planners_node" name="ipp_planners_node" output="screen" respawn="true"
+        if="$(eval arg('planner') != 'false')"
+    >
+        <param name="planner" type="string" value="$(arg planner)" />
+        <!-- base planner config -->
+        <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/planner.yaml" />
+
+        <!-- additional planner-specific configs -->
+        <rosparam subst_value="True" file="$(find ipp_planners)/config/$(arg config)/$(arg planner).yaml" />
+
+        <param name="gen_train_data" type="bool" value="$(arg gen_train_data)" />
+        <param name="vis_while_planning" type="bool" value="$(arg vis_while_planning)" />
+
+        <param name="log_plan_metrics" value="$(arg log_plan_metrics)"/>
+        <param name="planner_metrics_csv_file" value="$(arg planner_metrics_csv_file)"/>
+        <param name="final_path_csv_file" value="$(arg final_path_csv_file)"/>
+
+    </node>
+    
+
+
+    <group if="$(arg rviz)">
+        <node type="rviz" name="planner_rviz" pkg="rviz" args="-d $(find ipp_planners)/config/$(arg config)/$(arg rviz_file)" respawn="true"/>
+    </group>
+
+
+</launch>

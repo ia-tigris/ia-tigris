@@ -1,0 +1,40 @@
+services:
+  ros:
+    build:
+      context: .
+      target: ipp_planner
+    container_name: ros
+    environment:
+      - ENABLE_HEADLESS_DISPLAY=${ENABLE_HEADLESS_DISPLAY:-0}
+      - DISABLE_ROS1_EOL_WARNINGS=1
+    volumes:
+      - ../../:/workspace
+    networks:
+      - rosnet
+    privileged: true
+    stdin_open: true
+    ports:
+      - "8765:8765"   # foxglove_bridge websocket
+      - "9090:9090"   # rosbridge websocket (if enabled in launch)
+    tty: true
+    command: bash
+
+  # Optional browser-based RViz access: `docker compose --profile vnc up -d`
+  novnc:
+    image: theasp/novnc:latest
+    platform: linux/amd64
+    profiles: ["vnc"]
+    environment:
+      - VNC_SERVER=ros:5900
+      - RUN_XTERM=no
+      - GEOMETRY=1600x900
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ros
+    networks:
+      - rosnet
+
+networks:
+  rosnet:
+    driver: bridge

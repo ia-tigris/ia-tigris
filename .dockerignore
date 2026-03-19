@@ -1,0 +1,58 @@
+# .dockerignore — workspace root context (used by benchmark builds)
+# Only src/ is COPY'd into the test stage; exclude everything else.
+
+# Catkin build artifacts (host-side)
+build/
+devel/
+install/
+logs/
+.catkin_tools/
+
+# Version control
+.git/
+.gitmodules
+
+# Editor / IDE
+.vscode/
+**/.vscode/
+.idea/
+**/.idea/
+
+# OS junk
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Python caches
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Compiled shared objects (host-built, wrong arch for container)
+**/*.so
+**/*.dylib
+
+# Docker files themselves (not needed inside the image)
+**/Dockerfile
+**/Dockerfile.*
+**/.dockerignore
+**/docker-compose*.yml
+
+# Documentation / non-code (saves context transfer time)
+LICENSE
+MIGRATION_SNAPSHOT.md
+README.md
+**/*.md
+
+# ipp_planners test results & data (large, not needed in image)
+src/ipp_planners/test_results/
+src/ipp_planners/results/
+src/ipp_planners/img/
+src/ipp_planners/neuralnet/
+src/ipp_planners/versions/
+src/ipp_planners/.github/
+src/ipp_planners/**/data/
+src/ipp_planners/**/train_data/
+
+# ipp_simple_sim data dirs
+src/ipp_simple_sim/**/data/

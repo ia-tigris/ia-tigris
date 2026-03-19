@@ -1,0 +1,7 @@
+<launch>
+    <arg name="robot_name" default="uav1"/>
+
+    <node name="metrics_node" pkg="metrics" type="record_search_metrics.py" output="screen" respawn="true">
+        <param name="robot_name" value="$(arg robot_name)"/>
+    </node>
+</launch>

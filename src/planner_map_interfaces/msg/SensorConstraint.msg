@@ -1,0 +1,7 @@
+# Constraints on the sensor
+geometry_msgs/Vector3 min_direction
+geometry_msgs/Vector3 max_direction
+float32 min_field_of_regard_horizontal
+float32 max_field_of_regard_horizontal
+float32 min_field_of_regard_vertical
+float32 max_field_of_regard_vertical

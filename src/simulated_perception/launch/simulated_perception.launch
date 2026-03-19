@@ -1,0 +1,11 @@
+<!-- Currently 'simulated_perception' does camera-frame to world-frame projection, and filtering on targets to produce target state estimates -->
+<launch>
+    <arg name="rviz" default="false"/>
+
+    <node pkg="simulated_perception" type="simulated_perception_node" name="simulated_perception_node" output="screen">
+        <rosparam subst_value="True" file="$(find simulated_perception)/config/simulated_perception.yaml" />
+        <remap from="/cam_pose" to="camera_pose"/>
+        <remap from="/target_pix" to="sensor_measurement"/>
+    </node>
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find simulated_perception)/rviz/simple_mapping.rviz"/> -->
+</launch>
