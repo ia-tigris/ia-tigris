@@ -8,7 +8,7 @@ from planner_map_interfaces.msg import PlanRequest, TargetPrior
 from geometry_msgs.msg import Point32
 from std_msgs.msg import Empty
 
-yaml_file = "/home/wildfire/m600_ws/src/ipp/planner_map_interfaces/config/journal_m600/plan_requests/ipp_tro.yaml"
+yaml_file = "/home/wildfire/m600_ws/src/ipp/planner_map_interfaces/config/quadrotor/plan_requests/plan_request_example_ripacs.yaml"
 
 parser = argparse.ArgumentParser(description='Read yaml file')
 parser.add_argument('file', metavar='f', type=str, help='the file to publish from')

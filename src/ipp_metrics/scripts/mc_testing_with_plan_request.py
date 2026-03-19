@@ -39,7 +39,7 @@ class MCManager(object):
         ipp_launch.start()
         rospy.sleep(5)
         #send plan request
-        os.system("rosrun planner_map_interfaces pub_plan_request_from_yaml.py /home/moon/code/onr_ws/src/planner_map_interfaces/config/research/plan_requests/benchmarks/search_scenario_1.yaml {} \"\"")
+        os.system("rosrun planner_map_interfaces pub_plan_request_from_yaml.py /home/moon/code/onr_ws/src/planner_map_interfaces/config/fixed-wing/plan_requests/benchmarks/search_scenario_1.yaml {} \"\"")
         rospy.loginfo("Sent plan request")
         #wait for end of budget
         rate = rospy.Rate(self.desired_rate)

@@ -20,7 +20,7 @@ After the workspace is built and sourced (see top-level README), launch the plan
 
 ```bash
 roslaunch ipp_planners main.launch \
-    config:=onr \
+    config:=fixed-wing \
     planner:=tigris \
     sim:=simple
 ```
@@ -30,7 +30,7 @@ Publish an example request:
 ```bash
 source devel/setup.bash
 rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
-    $(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml
+    $(rospack find planner_map_interfaces)/config/fixed-wing/plan_requests/aug_workshop_demos/search-track_scenario.yaml
 ```
 
 ## Tests

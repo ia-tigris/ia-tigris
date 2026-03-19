@@ -30,7 +30,7 @@ cd /workspace
 catkin config --extend /opt/ros/noetic
 catkin build --no-status --summarize
 source devel/setup.bash
-roslaunch ipp_planners main.launch config:=onr planner:=tigris sim:=simple
+roslaunch ipp_planners main.launch config:=fixed-wing planner:=tigris sim:=simple
 ```
 
 Build artifacts (`build/`, `devel/`, `logs/`) appear on the host through the volume mount.
@@ -46,5 +46,4 @@ Perfect for CI, reproducibility, or platforms without native ROS (e.g., macOS, U
 
 - The entrypoint script is inlined in the Dockerfile (no separate file needed)
 - `.dockerignore` at workspace root excludes 135MB+ of build artifacts from Docker context for the test stage
-
 

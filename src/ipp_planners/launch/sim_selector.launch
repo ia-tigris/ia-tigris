@@ -5,7 +5,7 @@
     <!-- ===== ARGUMENTS ===== -->
     <!-- Simulator -->
     <!-- Options:  false, simple, firevision -->
-    <arg name="config" default="onr"/>
+    <arg name="config" default="fixed-wing"/>
     <arg name="sim" default="false"/>
     <arg name="robot_name" default="false"/>
     <arg name="robot_names" default="[uav1]"/>

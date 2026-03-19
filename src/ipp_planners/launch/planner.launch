@@ -1,7 +1,7 @@
 <launch>
     <!-- ===== ARGUMENTS ===== -->
     <!-- Overarching config subfolder name -->
-    <arg name="config" default="onr"/>
+    <arg name="config" default="fixed-wing"/>
 
     <!-- Agent state namespace -->
     <arg name="robot_name" default="simulator"/>

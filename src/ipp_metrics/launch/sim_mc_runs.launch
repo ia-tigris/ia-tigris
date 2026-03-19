@@ -2,7 +2,7 @@
 
 <launch>
     <!-- ===== ARGUMENTS ===== -->
-    <arg name="config" default="research"/>
+    <arg name="config" default="fixed-wing"/>
     <arg name="robot_name" default="uav1"/>
 
     <arg name="rviz" default="false"/>

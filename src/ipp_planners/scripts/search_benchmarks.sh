@@ -36,7 +36,7 @@ sim:=false \
 sleep 5
 
 # Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/onr/plan_requests/benchmarks/search_scenario_1.yaml {} ""&
+rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/benchmarks/search_scenario_1.yaml {} ""&
 
 # Bring main process forward
 fg %1
@@ -81,7 +81,7 @@ sim:=false \
 sleep 5
 
 # Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/onr/plan_requests/benchmarks/search_scenario_2.yaml {} ""&
+rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/benchmarks/search_scenario_2.yaml {} ""&
 
 # Bring main process forward
 jobs
@@ -127,7 +127,7 @@ sim:=false \
 sleep 5
 
 # Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/onr/plan_requests/benchmarks/search_scenario_3.yaml {} ""&
+rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/benchmarks/search_scenario_3.yaml {} ""&
 
 # Bring main process forward
 jobs
@@ -166,7 +166,7 @@ sim:=false \
 sleep 5
 
 # Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/onr/plan_requests/benchmarks/search_scenario_3.yaml {} ""&
+rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/benchmarks/search_scenario_3.yaml {} ""&
 
 # Bring main process forward
 jobs
@@ -204,7 +204,7 @@ sim:=false \
 sleep 5
 
 # Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/research/plan_requests/feature_tests/keep_out_zones_test.yaml {} ""&
+rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/feature_tests/keep_out_zones_test.yaml {} ""&
 
 # Bring main process forward
 jobs

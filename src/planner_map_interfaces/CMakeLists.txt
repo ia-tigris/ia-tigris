@@ -234,11 +234,11 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
-  config/onr/sensor_params.yaml
-  config/onr/sensor_model_0.csv
-  config/onr/sensor_model_1.csv
-  config/onr/sensor_model_2.csv
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config/onr
+  config/fixed-wing/sensor_params.yaml
+  config/fixed-wing/sensor_model_0.csv
+  config/fixed-wing/sensor_model_1.csv
+  config/fixed-wing/sensor_model_2.csv
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config/fixed-wing
 )
 
 install(FILES

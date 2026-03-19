@@ -1,7 +1,7 @@
 <launch>
     <arg name="sim" default="true"/> 
     <arg name="rviz" default="true"/>
-    <arg name="config" default="research"/>
+    <arg name="config" default="fixed-wing"/>
     <arg name="rviz_file" default="$(arg config).rviz"/>
 
     <include file="$(find ipp_planners)/launch/main.launch">

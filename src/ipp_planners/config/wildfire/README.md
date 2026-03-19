@@ -1,1 +1,0 @@
-Wildfire multirotor overrides; operates at a smaller scale than ONR currently because we use a M600 multi-rotor, which is slower.

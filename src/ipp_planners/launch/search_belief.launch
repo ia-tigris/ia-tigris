@@ -3,7 +3,7 @@
 <launch>
     <!-- ===== ARGUMENTS ==== -->
     <!-- Overarching config subfolder name -->
-    <arg name="config" default="onr"/>
+    <arg name="config" default="fixed-wing"/>
     <arg name="pub_search_map_metrics" default='false'/>
 
     <!-- Agent state namespace -->

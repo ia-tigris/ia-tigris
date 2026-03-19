@@ -3,7 +3,7 @@
 <launch>
     <!-- =========== START GENERAL LAUNCH ===========  -->
     <!-- Overarching config subfolder name -->
-    <arg name="config" default="onr"/>
+    <arg name="config" default="fixed-wing"/>
 
     <!-- Robot namespace. We use "robot_name" to be compatible with AirLab Core Stack -->
     <arg name="robot_name" default="uav1"/>

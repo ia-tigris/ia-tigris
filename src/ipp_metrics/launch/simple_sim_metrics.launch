@@ -1,6 +1,6 @@
 <launch>
 
-<arg name="config" default="onr"/>
+<arg name="config" default="fixed-wing"/>
 
 <group ns="sensor">
     <rosparam subst_value="true" file="$(find planner_map_interfaces)/config/$(arg config)/sensor_params.yaml" />

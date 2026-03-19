@@ -86,7 +86,7 @@ source devel/setup.bash
 ```bash
 # Inside the container (or in a new exec session):
 roslaunch ipp_planners main.launch \
-  config:=onr \
+  config:=fixed-wing \
   planner:=tigris \
   sim:=simple \
   rviz:=false \
@@ -106,7 +106,7 @@ In Foxglove:
 **Send a plan request (in another terminal):**
 ```bash
 docker compose -f src/ipp_planners/docker-compose.yml exec ros bash -c \
-  "source /workspace/devel/setup.bash && rosrun planner_map_interfaces pub_plan_request_from_yaml.py \$(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search_scenario_1.yaml"
+  "source /workspace/devel/setup.bash && rosrun planner_map_interfaces pub_plan_request_from_yaml.py \$(rospack find planner_map_interfaces)/config/fixed-wing/plan_requests/aug_workshop_demos/search_scenario_1.yaml"
 ```
 
 The workspace is mounted as a volume (`../../:/workspace`), so build artifacts (`build/`, `devel/`, `logs/`) appear on the host.
@@ -121,7 +121,7 @@ RViz is enabled by default in `main.launch`.
 
 ```bash
 roslaunch ipp_planners main.launch \
-  config:=onr \
+  config:=fixed-wing \
   planner:=tigris \
   sim:=simple
 ```
@@ -131,7 +131,7 @@ In a second terminal:
 ```bash
 source devel/setup.bash
 rosrun planner_map_interfaces pub_plan_request_from_yaml.py \
-  $(rospack find planner_map_interfaces)/config/onr/plan_requests/aug_workshop_demos/search-track_scenario.yaml
+  $(rospack find planner_map_interfaces)/config/fixed-wing/plan_requests/aug_workshop_demos/search-track_scenario.yaml
 ```
 
 ### Docker (Foxglove)
@@ -162,7 +162,7 @@ Inside container:
 
 ```bash
 roslaunch ipp_planners main.launch \
-  config:=onr \
+  config:=fixed-wing \
   planner:=tigris \
   sim:=simple
 ```
@@ -176,7 +176,7 @@ Open:
 ```bash
 docker compose -f src/ipp_planners/docker-compose.yml exec ros bash
 roslaunch metrics sim_mc_runs.launch \
-  config:=research \
+  config:=fixed-wing \
   sim:=simple \
   include_cpu_mem_monitor:=true
 ```
