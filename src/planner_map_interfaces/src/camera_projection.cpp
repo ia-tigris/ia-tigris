@@ -412,35 +412,3 @@ SensorParams fetch_sensor_params_from_rosparam_server(ros::NodeHandle &nh)
         model_count
     );
 }
-
-SensorParams fetch_sensor_params_from_rosparam_server_for_gimbal_planner(ros::NodeHandle &nh)
-{
-    std::vector<double> max_range;
-    int model_count = ros_utils::get_param<double>(nh, "sensor/model_count", 3);
-    std::vector<double> temp_max_range;
-    nh.param<std::vector<double>>("sensor/max_range", temp_max_range, {610.0, 620.0, 700.0});
-    int num_max_range = static_cast<int>(temp_max_range.size());
-    if (model_count > num_max_range) {
-        ROS_WARN("model_count > max_range.size(). Setting model_count = max_range.size().");
-        model_count = num_max_range;
-    }
-    for (int i = 0; i < model_count; i++)
-    {
-        max_range.push_back(temp_max_range.at(i));
-    }
-    // for (int i = 0; i < model_count; ++i)
-    // {
-    //     std::stringstream ss;
-    //     ss << "/sensor/max_range_" << i;
-    //     max_range.push_back(ros_utils::get_param<double>(nh, ss.str()));
-    // }
-    double width = ros_utils::get_param<double>(nh, "sensor/width_gimbal", 10.0);
-    return SensorParams(
-        ros_utils::get_param<double>(nh, "sensor/focal_length", 15.0),
-        width,
-        ros_utils::get_param<double>(nh, "sensor/height", 10.0),
-        ros_utils::get_param<double>(nh, "sensor/pitch", 0.785398),
-        max_range,
-        model_count
-    );
-}

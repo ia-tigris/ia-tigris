@@ -74,8 +74,6 @@ namespace ipp
          */
         virtual bool save_plan_request_params(const planner_map_interfaces::PlanRequest &msg)
         {
-            if (msg.planner_params.use_gimbal)
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(this->nh);
             bool clear_trees = Planner::save_plan_request_params(msg);
             if (use_ratio_distance_params)
             {

@@ -134,5 +134,4 @@ std::vector<std::vector<double>> drone_pose_to_projected_camera_bounds(
     int sensor_model_id = 0);
 
 SensorParams fetch_sensor_params_from_rosparam_server(ros::NodeHandle &nh);
-SensorParams fetch_sensor_params_from_rosparam_server_for_gimbal_planner(ros::NodeHandle &nh);
 #endif // CAMERA_PROJECTION_H

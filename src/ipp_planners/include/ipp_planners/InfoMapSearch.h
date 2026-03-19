@@ -111,8 +111,6 @@ namespace ipp
 
         bool save_plan_request_params(const planner_map_interfaces::PlanRequest &msg) override
         {
-            if (msg.planner_params.use_gimbal)
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(this->nh);
             this->desired_speed = msg.desired_speed;
             this->set_bounds(msg.search_bounds);
             this->counter_detect_radius = msg.counter_detection_range;

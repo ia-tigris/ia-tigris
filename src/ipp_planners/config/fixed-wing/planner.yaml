@@ -45,6 +45,3 @@ viewpoint_goal: 0.6 # [0, 1], with 1 being the bottom of the frame and 0 being t
 # ===== VISUALIZATION =====
 vis_rollouts: false
 visualization_scale: 100.0
-
-
-gimbal_planner: false

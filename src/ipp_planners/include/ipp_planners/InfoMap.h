@@ -55,8 +55,6 @@ namespace ipp
         ros::NodeHandle nh;
         ros::NodeHandle pnh;
 
-        bool gimbal_planner = ros_utils::get_param<bool>(pnh, "gimbal_planner", false);
-
         /**
          * @brief Construct a new Informed Sampler object.
          * Setup a ROS subscriber to update the internal belief. MUST be overriden.
@@ -64,28 +62,16 @@ namespace ipp
         InfoMap(ros::NodeHandle &nh, ros::NodeHandle &pnh) 
         : 
         nh(nh), pnh(pnh), gen(std::random_device()()), 
-        // sensor_params(fetch_sensor_params_from_rosparam_server_for_gimbal_planner(nh)), 
         strict_stay_in_bounds(ros_utils::get_param<bool>(pnh, "strict_stay_in_bounds")),
         observation_discretization_distance(ros_utils::get_param<double>(pnh, "observation_discretization_distance"))
         {
-            if (gimbal_planner)
-            {
-                ROS_INFO_STREAM("Gimbal Planner Active");
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(nh);
-            }
-            else
-            {
-                ROS_INFO_STREAM("Gimbal Planner not active");
-                this->sensor_params = fetch_sensor_params_from_rosparam_server(nh);
-            }
+            this->sensor_params = fetch_sensor_params_from_rosparam_server(nh);
         }
 
         /* =============================
          * ---- METHODS TO OVERRIDE ----
          * ============================= */
         virtual bool save_plan_request_params(const planner_map_interfaces::PlanRequest &msg){
-            if (msg.planner_params.use_gimbal)
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(this->nh);
             this->desired_speed = msg.desired_speed;
             this->set_bounds(msg.search_bounds);
             this->counter_detect_radius = msg.counter_detection_range;

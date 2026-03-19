@@ -89,7 +89,6 @@ namespace ipp
         double wind[3] = {0, 0, 0};
 
         bool should_vis_while_planning = false;
-        bool gimbal_planner = ros_utils::get_param<bool>(pnh, "gimbal_planner", false);
 
         Planner(ros::NodeHandle &nh, ros::NodeHandle &pnh)
             : nh(nh),pnh(pnh),
@@ -107,16 +106,7 @@ namespace ipp
               trochoid_min_wind(ros_utils::get_param<double>(this->pnh, "trochoid_min_wind", 99999))
         {
             this->planner_heartbeat_pub = nh.advertise<planner_map_interfaces::PlannerStatus>(ros_utils::get_param<std::string>(pnh, "planner_status_topic"), 10);
-            if (gimbal_planner)
-            {
-                ROS_INFO_STREAM("Gimbal Planner Active");
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(nh);
-            }
-            else
-            {
-                ROS_INFO_STREAM("Gimbal Planner not active");
-                this->sensor_params = fetch_sensor_params_from_rosparam_server(nh);
-            }
+            this->sensor_params = fetch_sensor_params_from_rosparam_server(nh);
         }
         virtual ~Planner() = default;
 
@@ -240,8 +230,6 @@ namespace ipp
          */
         virtual bool save_plan_request_params(const planner_map_interfaces::PlanRequest &msg)
         {
-            if (msg.planner_params.use_gimbal)
-                this->sensor_params = fetch_sensor_params_from_rosparam_server_for_gimbal_planner(this->nh);
             // Planner::save_plan_request_params(msg); // uncomment me when copy pasting to subclass
             this->max_planning_time = msg.max_planning_time;
             this->counter_detect_radius = msg.counter_detection_range;

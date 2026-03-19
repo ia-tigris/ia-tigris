@@ -13,5 +13,3 @@ float32 max_kappa
 # float32 viewpoint_goal
 
 float32 final_path_discretization_distance
-
-bool use_gimbal
