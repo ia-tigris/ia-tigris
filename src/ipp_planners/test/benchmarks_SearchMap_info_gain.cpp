@@ -21,7 +21,7 @@ static void BM_SearchMap_Search_Information_Gain(benchmark::State& state)
     
     ros::NodeHandle nh;
     std::string path = ros::package::getPath("planner_map_interfaces");
-    nh.setParam("/sensor/sensor_params_path", path + "/config/onr");
+    nh.setParam("/sensor/sensor_params_path", path + "/config/fixed-wing");
 
     SensorParams sensor_params(15, 10, 10, pitch, max_range, 3);
     int num_rows = static_cast<int>((x_end - x_start) / map_resolution);
@@ -120,7 +120,7 @@ static void BM_SearchMap_Estimtate_Belief_And_Reward(benchmark::State& state)
     
     ros::NodeHandle nh;
     std::string path = ros::package::getPath("planner_map_interfaces");
-    nh.setParam("/sensor/sensor_params_path", path + "/config/onr");
+    nh.setParam("/sensor/sensor_params_path", path + "/config/fixed-wing");
 
     SensorParams sensor_params(15, 10, 10, pitch, max_range, 3);
     int num_rows = static_cast<int>((x_end - x_start) / map_resolution);

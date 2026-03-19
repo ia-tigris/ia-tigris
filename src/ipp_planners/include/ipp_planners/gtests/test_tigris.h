@@ -256,7 +256,7 @@ TEST(TestSearchMap, checkSearchInformationGain)
     
     ros::NodeHandle nh;
     std::string path = ros::package::getPath("planner_map_interfaces");
-    nh.setParam("/sensor/sensor_params_path", path + "/config/onr");
+    nh.setParam("/sensor/sensor_params_path", path + "/config/fixed-wing");
 
     SensorParams sensor_params(15, 10, 10, pitch, max_range, 3);
     int num_rows = static_cast<int>((x_end - x_start) / map_resolution);
@@ -387,7 +387,7 @@ TEST(TestSearchMap, checkSearchInformationGainHashmap)
     
     ros::NodeHandle nh;
     std::string path = ros::package::getPath("planner_map_interfaces");
-    nh.setParam("/sensor/sensor_params_path", path + "/config/onr");
+    nh.setParam("/sensor/sensor_params_path", path + "/config/fixed-wing");
 
     SensorParams sensor_params(15, 10, 10, pitch, max_range, 3);
     int num_rows = static_cast<int>((x_end - x_start) / map_resolution);
@@ -548,7 +548,7 @@ TEST(TestSearchMap, checkSearchInformationGainHashmapNoEdge)
     
     ros::NodeHandle nh;
     std::string path = ros::package::getPath("planner_map_interfaces");
-    nh.setParam("/sensor/sensor_params_path", path + "/config/onr");
+    nh.setParam("/sensor/sensor_params_path", path + "/config/fixed-wing");
 
     SensorParams sensor_params(15, 10, 10, pitch, max_range, 3);
     int num_rows = static_cast<int>((x_end - x_start) / map_resolution);
