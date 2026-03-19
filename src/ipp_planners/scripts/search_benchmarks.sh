@@ -21,7 +21,7 @@ include_cpu_mem_monitor:=true \
 cpu_mem_csv_file:=$folder_path/search_scenario_1/cpu_mem_metrics.csv \
 log_plan_metrics:=true \
 plan_metrics_csv_directory:=$folder_path/search_scenario_1/ \
-mc_config:=mc_testing_search1.yaml \
+mc_config:=mc_test_from_plan_request.yaml \
 sim:=false \
 > $folder_path/search_scenario_1/stdout.txt &
 
@@ -29,7 +29,7 @@ sim:=false \
 # rviz:=false \
 # include_cpu_mem_monitor:=true \
 # cpu_mem_csv_file:=$folder_path/search_scenario_1/cpu_mem_metrics.csv \
-# mc_config:=mc_testing_search1.yaml \
+# mc_config:=mc_test_from_plan_request.yaml \
 # sim:=false &
 
 # Wait for everything to be running
@@ -66,7 +66,7 @@ include_cpu_mem_monitor:=true \
 cpu_mem_csv_file:=$folder_path/search_scenario_2/cpu_mem_metrics.csv \
 log_plan_metrics:=true \
 plan_metrics_csv_directory:=$folder_path/search_scenario_2/ \
-mc_config:=mc_testing_search1.yaml \
+mc_config:=mc_test_from_plan_request.yaml \
 sim:=false \
 > $folder_path/search_scenario_2/stdout.txt &
 
@@ -74,7 +74,7 @@ sim:=false \
 # rviz:=false \
 # include_cpu_mem_monitor:=true \
 # cpu_mem_csv_file:=$folder_path/search_scenario_2/cpu_mem_metrics.csv  \
-# mc_config:=mc_testing_search1.yaml \
+# mc_config:=mc_test_from_plan_request.yaml \
 # sim:=false &
 
 # Wait for everything to be running
@@ -112,7 +112,7 @@ include_cpu_mem_monitor:=true \
 cpu_mem_csv_file:=$folder_path/search_scenario_3/cpu_mem_metrics.csv \
 log_plan_metrics:=true \
 plan_metrics_csv_directory:=$folder_path/search_scenario_3/ \
-mc_config:=mc_testing_search1.yaml \
+mc_config:=mc_test_from_plan_request.yaml \
 sim:=false \
 > $folder_path/search_scenario_3/stdout.txt &
 
@@ -120,7 +120,7 @@ sim:=false \
 # rviz:=false \
 # include_cpu_mem_monitor:=true \
 # cpu_mem_csv_file:=$folder_path/search_scenario_3/cpu_mem_metrics.csv  \
-# mc_config:=mc_testing_search1.yaml \
+# mc_config:=mc_test_from_plan_request.yaml \
 # sim:=false &
 
 # Wait for everything to be running
@@ -158,7 +158,7 @@ include_cpu_mem_monitor:=true \
 cpu_mem_csv_file:=$folder_path/search_random_1/cpu_mem_metrics.csv \
 log_plan_metrics:=true \
 plan_metrics_csv_directory:=$folder_path/search_random_1/ \
-mc_config:=mc_testing_search1_random.yaml \
+mc_config:=mc_test_random.yaml \
 sim:=false \
 > $folder_path/search_random_1/stdout.txt &
 
@@ -196,7 +196,7 @@ include_cpu_mem_monitor:=true \
 cpu_mem_csv_file:=$folder_path/search_collisions_1/cpu_mem_metrics.csv \
 log_plan_metrics:=true \
 plan_metrics_csv_directory:=$folder_path/search_collisions_1/ \
-mc_config:=mc_testing_search1.yaml \
+mc_config:=mc_test_from_plan_request.yaml \
 sim:=false \
 > $folder_path/search_collisions_1/stdout.txt &
 

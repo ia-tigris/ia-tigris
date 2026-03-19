@@ -10,7 +10,7 @@
     <arg name="record" default="false"/>
     <arg name="sim" default="false"/>
 
-    <arg name="mc_config" default="mc_testing_search1.yaml"/>
+    <arg name="mc_config" default="mc_test_from_plan_request.yaml"/>
     <arg name="include_cpu_mem_monitor" default="false"/>
     <arg name="cpu_mem_csv_file" default="cpu_monitor.csv"/>
 

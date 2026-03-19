@@ -34,7 +34,7 @@ class ParameterSweepManager(object):
             self.launch_args = ['metrics', 'sim_mc_runs.launch','rviz:=false', 'include_cpu_mem_monitor:=true', 
                 'cpu_mem_csv_file:=' + temp_path +'cpu_mem_metrics.csv', 
                 'log_plan_metrics:=true', 'plan_metrics_csv_directory:='+ temp_path,
-                'mc_config:=mc_testing_search1_random.yaml', 
+                'mc_config:=mc_test_random.yaml', 
                 'robot_name:=' + self.name, 'sim:=simple']
 
             #launch ipp nodes
