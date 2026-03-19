@@ -1,4 +1,12 @@
-# ia-tigris
+# IA-TIGRIS: An Incremental and Adaptive Sampling-based Planner for Online Informative Path Planning
+
+### IEEE Transactions on Robotics 2026
+
+[Brady Moon](https://bradymoon.com)<sup>1</sup> · [Nayana Suvarna](https://theairlab.org)<sup>1</sup> · [Andrew Jong](https://andrewjong.github.io)<sup>1</sup> · [Satrajit Chatterjee](https://satrajit-chatterjee.github.io)<sup>2</sup> · [Junbin Yuan](https://theairlab.org)<sup>1</sup> · [Muqing Cao](https://caomuqing.github.io)<sup>1</sup> · [Sebastian Scherer](https://theairlab.org)<sup>1</sup>
+
+<sup>1</sup> Carnegie Mellon University · <sup>2</sup> University at Pennsylvania
+
+### [Paper](https://arxiv.org/pdf/2502.15961) | [Project Page](https://ia-tigris.github.io/) |  [Video](https://youtu.be/etFLanBdgHs) 
 
 ROS1 (Noetic) workspace for planner, simple simulation, and metrics/benchmark runs.
 
