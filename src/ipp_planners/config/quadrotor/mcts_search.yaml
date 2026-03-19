@@ -6,15 +6,7 @@ gen_train_data: "false"
 max_rollout_depth: 50  
 # num_actions: 10
 num_actions: 10  # the first N-target actions are directly at the mean
-# exploration_weight: 0.0
-# exploration_weight: 0.141421356  # sqrt(2) * 0.1
-# exploration_weight: 0.8
 exploration_weight: 1.0
-# exploration_weight: 1.41421356  # sqrt(2)
-# exploration_weight: 10  
-# exploration_weight: 20  
-# exploration_weight: 40  
-# exploration_weight: 50  
 
 # tree parameters. used if `use_ratio_distance_params: false`
 mcts_extend_angle: 3.1415926
@@ -29,6 +21,3 @@ use_ratio_distance_params: false
 extend_dist_ratio: .6  
 extend_radius_ratio: .6
 
-
-# limcts_torchscript_file: "./torchscript_modules/limcts_explicit-mean_epoch=509-val_loss=4.4120E-04.pt"
-# lpmcts_torchscript_file: "./torchscript_modules/lpmcts_andrew-sagar-epoch=1026-val_loss=3.6159E-03.pt"
