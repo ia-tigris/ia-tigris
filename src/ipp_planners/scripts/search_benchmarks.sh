@@ -183,43 +183,4 @@ else
 fi
 pkill rosmaster
 
-############################################
-# Search Scenario 1 with collisions
-############################################
-
-mkdir -p $folder_path/search_collisions_1
-
-# Launch planner and metrics saving
-roslaunch metrics sim_mc_runs.launch \
-rviz:=true \
-include_cpu_mem_monitor:=true \
-cpu_mem_csv_file:=$folder_path/search_collisions_1/cpu_mem_metrics.csv \
-log_plan_metrics:=true \
-plan_metrics_csv_directory:=$folder_path/search_collisions_1/ \
-mc_config:=mc_test_from_plan_request.yaml \
-sim:=false \
-> $folder_path/search_collisions_1/stdout.txt &
-
-# Wait for everything to be running
-sleep 5
-
-# Send plan request
-rosrun planner_map_interfaces pub_plan_request_from_yaml.py src/planner_map_interfaces/config/fixed-wing/plan_requests/feature_tests/keep_out_zones_test.yaml {} ""&
-
-# Bring main process forward
-jobs
-fg %9
-
-if [ $? -eq 0 ]; then
-    echo ""
-    echo ""
-    echo "Search with keep out zones 1 ran successfully"
-else
-    echo ""
-    echo "Search with keep out zones 1 failed to run"
-    exit 1
-fi
-pkill rosmaster
-
-
 exit

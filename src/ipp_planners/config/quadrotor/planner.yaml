@@ -33,7 +33,6 @@ plan_horizon_length: 600 # length of horizon we want to plan for. Only used if u
 # reward parameters
 search_reward_weight: 1.0
 
-information_metric: "variance_accumulated"  # choose "particles", "variance_delta", or "variance_accumulated"
 use_hashmap_for_search: true  # whether to use a hashmap for search or not
 
 # agent parameters

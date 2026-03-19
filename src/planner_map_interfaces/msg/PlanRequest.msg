@@ -23,19 +23,10 @@ KeepOutZone[] keep_out_zones
 
 # Replan flag
 bool clear_tree
-# bool reset_trackers
-
-# # Debug vis
-# bool msg_debug_vis
 
 # Set the header time for parameters that have been updated
 # If header not set, parameters will be ignored 
 PlannerParams planner_params
-# RimctsParams rimcts_params
-# GreedyParams greedy_params
-# MctsParams mcts_params
-# Search_MapParams search_map_params
-# TigrisParams tigris_params
 
 # Scenario
 uint32 scenario # To match up with the correct plan

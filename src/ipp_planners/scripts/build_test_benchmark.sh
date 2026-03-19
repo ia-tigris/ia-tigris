@@ -86,8 +86,6 @@ fi
 if [ "$full_tests" = true ] ; then
     benchmark_scripts=(
         "src/ipp_planners/scripts/search_benchmarks.sh"
-        "src/ipp_planners/scripts/search_track_benchmarks.sh"
-        "src/ipp_planners/scripts/track_benchmarks.sh"
     )
 
     for test_file in "${benchmark_scripts[@]}"; do

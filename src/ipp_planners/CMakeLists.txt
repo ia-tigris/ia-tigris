@@ -97,7 +97,6 @@ include_directories(
 add_library(${PROJECT_NAME}
   src/Tigris.cpp
   src/SearchMap.cpp
-  # src/Tracker.cpp
 )
 
 # # Add cmake target dependencies of the library

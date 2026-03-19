@@ -22,8 +22,6 @@ inline bool check_file_exists(const std::string &name)
 
 namespace ipp
 {
-    // TODO: Need to create a common MCTS base class and derive MCTS track and MCTS search 
-    // Right now the following exception class and other functionality is duplicated
     class NodeStuckException : public std::exception
     {
         private:
