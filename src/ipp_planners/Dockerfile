@@ -25,6 +25,7 @@ RUN echo "Installing planner_ws core dependencies... \n" && \
         ros-noetic-cv-bridge \
         ros-noetic-dynamic-edt-3d \
         ros-noetic-eigen-conversions \
+        ros-noetic-gazebo-msgs \
         ros-noetic-geographic-msgs \
         ros-noetic-geometry2 \
         ros-noetic-image-geometry \

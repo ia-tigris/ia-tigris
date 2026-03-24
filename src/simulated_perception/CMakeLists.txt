@@ -9,6 +9,7 @@ add_compile_options(-std=c++17 -lstdc++fs)  # to use #include <experimental/file
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  gazebo_msgs
   geometry_msgs
   nav_msgs
   roscpp
@@ -41,7 +42,7 @@ catkin_package(
 #  include
  ${EIGEN3_INCLUDE_DIR}
 #  LIBRARIES simulated_perception
- CATKIN_DEPENDS geometry_msgs nav_msgs roscpp sensor_msgs tf
+ CATKIN_DEPENDS gazebo_msgs geometry_msgs nav_msgs roscpp sensor_msgs tf
 #  DEPENDS system_lib
 )
 
