@@ -1,7 +1,7 @@
 [submodule "src/trochoids"]
 	path = src/trochoids
-	url = git@github.com:castacks/trochoids.git
+	url = https://github.com/castacks/trochoids.git
 	branch = straight-on-end
 [submodule "src/cpu_monitor"]
 	path = src/cpu_monitor
-	url = git@github.com:castacks/cpu_monitor.git
+	url = https://github.com/castacks/cpu_monitor.git

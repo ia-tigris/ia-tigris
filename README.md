@@ -1,12 +1,22 @@
-# IA-TIGRIS: An Incremental and Adaptive Sampling-based Planner for Online Informative Path Planning
-
-### IEEE Transactions on Robotics 2026
-
-[Brady Moon](https://bradymoon.com)<sup>1</sup> · [Nayana Suvarna](https://theairlab.org)<sup>1</sup> · [Andrew Jong](https://andrewjong.github.io)<sup>1</sup> · [Satrajit Chatterjee](https://satrajit-chatterjee.github.io)<sup>2</sup> · [Junbin Yuan](https://theairlab.org)<sup>1</sup> · [Muqing Cao](https://caomuqing.github.io)<sup>1</sup> · [Sebastian Scherer](https://theairlab.org)<sup>1</sup>
-
-<sup>1</sup> Carnegie Mellon University · <sup>2</sup> University at Pennsylvania
-
-### [Paper](https://arxiv.org/pdf/2502.15961) | [Project Page](https://ia-tigris.github.io/) |  [Video](https://youtu.be/etFLanBdgHs) 
+<div align="center">
+  <h1>IA-TIGRIS: An Incremental and Adaptive Sampling-based Planner for Online Informative Path Planning</h1>
+  <h3>IEEE Transactions on Robotics 2026</h3>
+  <p>
+    <a href="https://bradymoon.com">Brady Moon</a><sup>1</sup> ·
+    <a href="https://theairlab.org">Nayana Suvarna</a><sup>1</sup> ·
+    <a href="https://andrewjong.github.io">Andrew Jong</a><sup>1</sup> ·
+    <a href="https://satrajit-chatterjee.github.io">Satrajit Chatterjee</a><sup>2</sup> ·
+    <a href="https://theairlab.org">Junbin Yuan</a><sup>1</sup> ·
+    <a href="https://caomuqing.github.io">Muqing Cao</a><sup>1</sup> ·
+    <a href="https://theairlab.org">Sebastian Scherer</a><sup>1</sup>
+  </p>
+  <p><sup>1</sup> Carnegie Mellon University · <sup>2</sup> University at Pennsylvania</p>
+  <h3>
+    <a href="https://arxiv.org/pdf/2502.15961">Paper</a> |
+    <a href="https://ia-tigris.github.io/">Project Page</a> |
+    <a href="https://youtu.be/etFLanBdgHs">Video</a> 
+  </h3>
+</div>
 
 ROS1 (Noetic) workspace for planner, simple simulation, and metrics/benchmark runs.
 
