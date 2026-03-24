@@ -39,7 +39,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          docker run --rm ia-tigris-ci:latest /bin/bash -lc '
+          docker run --rm --entrypoint /bin/bash ia-tigris-ci:latest -lc '
             set -e
             source /opt/ros/noetic/setup.bash
             source /workspace/devel/setup.bash
