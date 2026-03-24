@@ -1,13 +1,13 @@
 
-# image target for entire workspace
-FROM ros:noetic-ros-base AS ipp_planner
+# Lean base image for workspace builds and CI
+FROM ros:noetic-ros-base AS ipp_planner_core
 ARG WS=/workspace
 WORKDIR $WS
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-# installing workspace dependencies
-RUN echo "Installing planner_ws dependencies... \n" && \
+# Install core workspace build dependencies.
+RUN echo "Installing planner_ws core dependencies... \n" && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         apt-utils \
@@ -19,15 +19,12 @@ RUN echo "Installing planner_ws dependencies... \n" && \
         libgdal-dev \
         libusb-dev \
         python3-catkin-tools \
-        python3-tk \
         python3-vcstool \
         ros-noetic-angles \
         ros-noetic-catkin \
         ros-noetic-cv-bridge \
         ros-noetic-dynamic-edt-3d \
         ros-noetic-eigen-conversions \
-        ros-noetic-foxglove-bridge \
-        ros-noetic-gazebo-ros-pkgs \
         ros-noetic-geographic-msgs \
         ros-noetic-geometry2 \
         ros-noetic-image-geometry \
@@ -35,13 +32,9 @@ RUN echo "Installing planner_ws dependencies... \n" && \
         ros-noetic-octomap \
         ros-noetic-octomap-msgs \
         ros-noetic-pcl-ros \
-        ros-noetic-rosbridge-suite \
-        ros-noetic-rviz \
         ros-noetic-tf \
         ros-noetic-tf-conversions \
-        vim \
-        x11vnc \
-        xvfb && \
+        vim && \
     rm -rf /var/lib/apt/lists/*
 ENV PYTHONPATH="/workspace/src/ipp_simple_sim"
 
@@ -65,10 +58,23 @@ ENTRY
 RUN chmod +x /ros_entrypoint.sh
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
+# Full interactive/local image used by docker compose.
+FROM ipp_planner_core AS ipp_planner
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3-tk \
+        ros-noetic-foxglove-bridge \
+        ros-noetic-gazebo-ros-pkgs \
+        ros-noetic-rosbridge-suite \
+        ros-noetic-rviz \
+        x11vnc \
+        xvfb && \
+    rm -rf /var/lib/apt/lists/*
+
 # ---- isolated test/benchmark stage (used by build_test_benchmark.sh) ----
 # Build context must be the workspace root so COPY src/ works.
 #   docker build --target test -f src/ipp_planners/Dockerfile .
-FROM ipp_planner AS test
+FROM ipp_planner_core AS test
 COPY src/ $WS/src/
 RUN catkin config --extend /opt/ros/$ROS_DISTRO && \
     catkin build -DCMAKE_BUILD_TYPE=Release --no-status --summarize
