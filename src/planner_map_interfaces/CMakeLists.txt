@@ -70,7 +70,6 @@ add_message_files(
     Plan.msg
     PlanRequest.msg
     PlannerParams.msg
-    RimctsParams.msg
     Search_MapParams.msg
     SensorConstraint.msg
     TargetPrior.msg
